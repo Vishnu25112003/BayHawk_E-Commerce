@@ -1,0 +1,344 @@
+// title
+title E-commerce Platform Data Model
+
+// tables
+users {
+  user_id UUID PK "Unique identifier for user"
+  email VARCHAR(255) UNIQUE "User email address"
+  password_hash VARCHAR(255) "Hashed password"
+  first_name VARCHAR(100) "User first name"
+  last_name VARCHAR(100) "User last name"
+  phone VARCHAR(20) "Phone number"
+  address TEXT "Full address"
+  city VARCHAR(100) "City name"
+  state VARCHAR(100) "State/Province"
+  postal_code VARCHAR(20) "Postal/ZIP code"
+  country VARCHAR(100) "Country name"
+  avatar_url VARCHAR(500) "Profile picture URL"
+  date_of_birth DATE "User birth date"
+  gender ENUM('male', 'female', 'other') "User gender"
+  email_verified BOOLEAN DEFAULT false "Email verification status"
+  phone_verified BOOLEAN DEFAULT false "Phone verification status"
+  last_login TIMESTAMP "Last login timestamp"
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP "Account creation date"
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP "Last update timestamp"
+  is_active BOOLEAN DEFAULT true "Account status"
+  is_deleted BOOLEAN DEFAULT false "Soft delete flag"
+  role ENUM('customer', 'admin', 'vendor') DEFAULT 'customer' "User role"
+}
+
+products {
+  product_id UUID PK "Unique product identifier"
+  name VARCHAR(255) "Product name"
+  slug VARCHAR(255) UNIQUE "URL-friendly product name"
+  description TEXT "Product description"
+  short_description TEXT "Brief product description"
+  price DECIMAL(10,2) "Current selling price"
+  original_price DECIMAL(10,2) "Original/MRP price"
+  cost_price DECIMAL(10,2) "Cost to business"
+  discount_percentage DECIMAL(5,2) "Discount percentage"
+  image_url VARCHAR(500) "Main product image"
+  gallery_images JSON "Array of product images"
+  category_id UUID FK "Product category"
+  subcategory_id UUID FK "Product subcategory"
+  brand VARCHAR(100) "Product brand"
+  sku VARCHAR(100) UNIQUE "Stock keeping unit"
+  barcode VARCHAR(50) "Product barcode"
+  rating DECIMAL(3,2) "Average rating"
+  reviews_count INT DEFAULT 0 "Number of reviews"
+  weight DECIMAL(8,2) "Product weight in kg"
+  dimensions JSON "Length x Width x Height"
+  pieces INT DEFAULT 1 "Number of pieces"
+  serves INT "Serving size"
+  stock_quantity INT DEFAULT 0 "Available stock"
+  min_stock_level INT DEFAULT 5 "Minimum stock alert level"
+  in_stock BOOLEAN DEFAULT true "Availability status"
+  is_featured BOOLEAN DEFAULT false "Featured product flag"
+  is_digital BOOLEAN DEFAULT false "Digital product flag"
+  badge ENUM('new', 'sale', 'popular', 'limited') "Product badge"
+  tags JSON "Product tags"
+  meta_title VARCHAR(255) "SEO meta title"
+  meta_description TEXT "SEO meta description"
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP "Creation date"
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP "Last update timestamp"
+  is_active BOOLEAN DEFAULT true "Product status"
+  is_deleted BOOLEAN DEFAULT false "Soft delete flag"
+}
+
+categories {
+  category_id UUID PK "Unique category identifier"
+  name VARCHAR(255) "Category name"
+  slug VARCHAR(255) UNIQUE "URL-friendly category name"
+  description TEXT "Category description"
+  icon VARCHAR(100) "Category icon name"
+  image_url VARCHAR(500) "Category image"
+  parent_id UUID FK "Parent category for hierarchy"
+  level INT DEFAULT 1 "Category hierarchy level"
+  sort_order INT DEFAULT 0 "Display order"
+  is_active BOOLEAN DEFAULT true "Category status"
+  meta_title VARCHAR(255) "SEO meta title"
+  meta_description TEXT "SEO meta description"
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP "Creation date"
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP "Last update timestamp"
+}
+
+cart_items {
+  cart_item_id UUID PK "Unique cart item identifier"
+  user_id UUID FK "User who owns the cart"
+  product_id UUID FK "Product in cart"
+  quantity INT DEFAULT 1 "Item quantity"
+  selected_variant JSON "Selected product variant"
+  unit_price DECIMAL(10,2) "Price at time of adding"
+  subtotal DECIMAL(10,2) "Quantity × unit price"
+  added_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP "When item was added"
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP "Last update"
+  is_active BOOLEAN DEFAULT true "Cart item status"
+}
+
+wishlist_items {
+  wishlist_item_id UUID PK "Unique wishlist item identifier"
+  user_id UUID FK "User who owns the wishlist"
+  product_id UUID FK "Product in wishlist"
+  added_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP "When item was added"
+  is_active BOOLEAN DEFAULT true "Wishlist item status"
+}
+
+orders {
+  order_id UUID PK "Unique order identifier"
+  user_id UUID FK "Customer who placed order"
+  order_number VARCHAR(50) UNIQUE "Human-readable order number"
+  subtotal DECIMAL(10,2) "Order subtotal"
+  tax_amount DECIMAL(10,2) "Tax amount"
+  shipping_amount DECIMAL(10,2) "Shipping cost"
+  discount_amount DECIMAL(10,2) "Total discount"
+  total_amount DECIMAL(10,2) "Order total"
+  currency VARCHAR(3) DEFAULT 'USD' "Order currency"
+  status ENUM('pending', 'confirmed', 'processing', 'shipped', 'delivered', 'cancelled', 'refunded') DEFAULT 'pending' "Order status"
+  payment_status ENUM('pending', 'paid', 'failed', 'refunded') DEFAULT 'pending' "Payment status"
+  payment_method VARCHAR(50) "Payment method used"
+  payment_id VARCHAR(100) "Payment gateway transaction ID"
+  shipping_address JSON "Shipping address details"
+  billing_address JSON "Billing address details"
+  notes TEXT "Order notes"
+  tracking_number VARCHAR(100) "Shipment tracking number"
+  estimated_delivery DATE "Estimated delivery date"
+  actual_delivery TIMESTAMP "Actual delivery timestamp"
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP "Order placement date"
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP "Last update"
+}
+
+order_items {
+  order_item_id UUID PK "Unique order item identifier"
+  order_id UUID FK "Parent order"
+  product_id UUID FK "Product ordered"
+  product_name VARCHAR(255) "Product name at time of order"
+  product_sku VARCHAR(100) "Product SKU at time of order"
+  quantity INT "Item quantity"
+  unit_price DECIMAL(10,2) "Price per unit at time of order"
+  subtotal DECIMAL(10,2) "Quantity × unit price"
+  discount_amount DECIMAL(10,2) "Item discount"
+  total DECIMAL(10,2) "Final item total"
+  product_snapshot JSON "Product details snapshot"
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP "Order item creation"
+}
+
+wallets {
+  wallet_id UUID PK "Unique wallet identifier"
+  user_id UUID FK "Wallet owner"
+  balance DECIMAL(10,2) DEFAULT 0 "Current wallet balance"
+  currency VARCHAR(3) DEFAULT 'USD' "Wallet currency"
+  is_active BOOLEAN DEFAULT true "Wallet status"
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP "Wallet creation date"
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP "Last update"
+}
+
+wallet_transactions {
+  transaction_id UUID PK "Unique transaction identifier"
+  wallet_id UUID FK "Wallet involved"
+  type ENUM('credit', 'debit') "Transaction type"
+  amount DECIMAL(10,2) "Transaction amount"
+  description TEXT "Transaction description"
+  category ENUM('refund', 'cashback', 'payment', 'topup', 'withdrawal') "Transaction category"
+  reference_id VARCHAR(100) "Related order/payment ID"
+  reference_type VARCHAR(50) "Reference entity type"
+  balance_before DECIMAL(10,2) "Balance before transaction"
+  balance_after DECIMAL(10,2) "Balance after transaction"
+  status ENUM('pending', 'completed', 'failed') DEFAULT 'completed' "Transaction status"
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP "Transaction date"
+}
+
+memberships {
+  membership_id UUID PK "Unique membership identifier"
+  user_id UUID FK "Membership owner"
+  plan ENUM('basic', 'premium', 'gold', 'platinum') "Membership plan"
+  price DECIMAL(10,2) "Membership price"
+  period ENUM('monthly', 'quarterly', 'yearly') "Billing period"
+  started_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP "Membership start date"
+  expires_at TIMESTAMP "Membership expiry date"
+  auto_renew BOOLEAN DEFAULT false "Auto-renewal status"
+  is_active BOOLEAN DEFAULT true "Membership status"
+  cancelled_at TIMESTAMP "Cancellation date"
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP "Creation date"
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP "Last update"
+}
+
+referrals {
+  referral_id UUID PK "Unique referral identifier"
+  referrer_id UUID FK "User who made referral"
+  referred_user_id UUID FK "User who was referred"
+  referred_email VARCHAR(255) "Email of referred person"
+  referral_code VARCHAR(20) UNIQUE "Unique referral code"
+  status ENUM('pending', 'registered', 'completed', 'expired') DEFAULT 'pending' "Referral status"
+  reward_amount DECIMAL(10,2) "Reward amount"
+  reward_type ENUM('cash', 'points', 'discount') "Reward type"
+  reward_given BOOLEAN DEFAULT false "Reward distribution status"
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP "Referral creation date"
+  completed_at TIMESTAMP "Referral completion date"
+  expires_at TIMESTAMP "Referral expiry date"
+}
+
+recipes {
+  recipe_id UUID PK "Unique recipe identifier"
+  name VARCHAR(255) "Recipe name"
+  slug VARCHAR(255) UNIQUE "URL-friendly recipe name"
+  image_url VARCHAR(500) "Recipe main image"
+  gallery_images JSON "Array of recipe images"
+  prep_time INT "Preparation time in minutes"
+  cook_time INT "Cooking time in minutes"
+  total_time INT "Total time in minutes"
+  difficulty ENUM('easy', 'medium', 'hard') "Recipe difficulty"
+  servings INT "Number of servings"
+  calories INT "Calories per serving"
+  ingredients JSON "List of ingredients"
+  instructions JSON "Cooking instructions"
+  video_url VARCHAR(500) "Recipe video URL"
+  category VARCHAR(100) "Recipe category"
+  tags JSON "Recipe tags"
+  author VARCHAR(100) "Recipe author"
+  rating DECIMAL(3,2) "Average rating"
+  reviews_count INT DEFAULT 0 "Number of reviews"
+  is_published BOOLEAN DEFAULT true "Publication status"
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP "Creation date"
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP "Last update"
+}
+
+testimonials {
+  testimonial_id UUID PK "Unique testimonial identifier"
+  user_id UUID FK "User who gave testimonial"
+  name VARCHAR(255) "Display name"
+  avatar_url VARCHAR(500) "User avatar"
+  rating DECIMAL(3,2) "Rating given"
+  title VARCHAR(255) "Testimonial title"
+  text TEXT "Testimonial content"
+  location VARCHAR(255) "User location"
+  product_id UUID FK "Product reviewed (optional)"
+  is_verified BOOLEAN DEFAULT false "Verification status"
+  is_featured BOOLEAN DEFAULT false "Featured testimonial"
+  is_active BOOLEAN DEFAULT true "Testimonial status"
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP "Creation date"
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP "Last update"
+}
+
+reviews {
+  review_id UUID PK "Unique review identifier"
+  user_id UUID FK "User who wrote review"
+  product_id UUID FK "Product being reviewed"
+  order_id UUID FK "Order related to review"
+  rating INT "Rating given (1-5)"
+  title VARCHAR(255) "Review title"
+  content TEXT "Review content"
+  images JSON "Review images"
+  is_verified_purchase BOOLEAN DEFAULT false "Verified purchase flag"
+  is_helpful_count INT DEFAULT 0 "Helpful votes count"
+  is_active BOOLEAN DEFAULT true "Review status"
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP "Review date"
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP "Last update"
+}
+
+addresses {
+  address_id UUID PK "Unique address identifier"
+  user_id UUID FK "Address owner"
+  type ENUM('shipping', 'billing', 'both') DEFAULT 'shipping' "Address type"
+  recipient_name VARCHAR(255) "Recipient name"
+  phone VARCHAR(20) "Contact phone"
+  address_line_1 TEXT "Address line 1"
+  address_line_2 TEXT "Address line 2"
+  city VARCHAR(100) "City"
+  state VARCHAR(100) "State/Province"
+  postal_code VARCHAR(20) "Postal code"
+  country VARCHAR(100) "Country"
+  is_default BOOLEAN DEFAULT false "Default address flag"
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP "Creation date"
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP "Last update"
+}
+
+coupons {
+  coupon_id UUID PK "Unique coupon identifier"
+  code VARCHAR(50) UNIQUE "Coupon code"
+  name VARCHAR(255) "Coupon name"
+  description TEXT "Coupon description"
+  type ENUM('percentage', 'fixed_amount') "Discount type"
+  value DECIMAL(10,2) "Discount value"
+  minimum_amount DECIMAL(10,2) "Minimum order amount"
+  maximum_discount DECIMAL(10,2) "Maximum discount amount"
+  usage_limit INT "Total usage limit"
+  usage_limit_per_user INT "Per-user usage limit"
+  used_count INT DEFAULT 0 "Times used"
+  starts_at TIMESTAMP "Coupon start date"
+  expires_at TIMESTAMP "Coupon expiry date"
+  is_active BOOLEAN DEFAULT true "Coupon status"
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP "Creation date"
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP "Last update"
+}
+
+product_variants {
+  variant_id UUID PK "Unique variant identifier"
+  product_id UUID FK "Parent product"
+  name VARCHAR(255) "Variant name"
+  sku VARCHAR(100) UNIQUE "Variant SKU"
+  price DECIMAL(10,2) "Variant price"
+  original_price DECIMAL(10,2) "Variant original price"
+  stock_quantity INT DEFAULT 0 "Variant stock"
+  weight DECIMAL(8,2) "Variant weight"
+  image_url VARCHAR(500) "Variant image"
+  attributes JSON "Variant attributes (size, color, etc.)"
+  is_active BOOLEAN DEFAULT true "Variant status"
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP "Creation date"
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP "Last update"
+}
+
+// relationships
+cart_items.user_id > users.user_id
+cart_items.product_id > products.product_id
+
+wishlist_items.user_id > users.user_id
+wishlist_items.product_id > products.product_id
+
+orders.user_id > users.user_id
+
+order_items.order_id > orders.order_id
+order_items.product_id > products.product_id
+
+products.category_id > categories.category_id
+products.subcategory_id > categories.category_id
+
+categories.parent_id > categories.category_id
+
+wallets.user_id > users.user_id
+wallet_transactions.wallet_id > wallets.wallet_id
+
+memberships.user_id > users.user_id
+
+referrals.referrer_id > users.user_id
+referrals.referred_user_id > users.user_id
+
+testimonials.user_id > users.user_id
+testimonials.product_id > products.product_id
+
+reviews.user_id > users.user_id
+reviews.product_id > products.product_id
+reviews.order_id > orders.order_id
+
+addresses.user_id > users.user_id
+
+product_variants.product_id > products.product_id

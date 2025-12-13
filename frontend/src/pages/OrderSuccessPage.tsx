@@ -89,15 +89,21 @@ export default function OrderSuccessPage() {
         <Breadcrumb className="mb-6">
           <BreadcrumbList>
             <BreadcrumbItem>
-              <BreadcrumbLink to="/">Home</BreadcrumbLink>
+              <BreadcrumbLink asChild>
+                <Link to="/">Home</Link>
+              </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbLink to="/cart">Shopping Cart</BreadcrumbLink>
+              <BreadcrumbLink asChild>
+                <Link to="/cart">Shopping Cart</Link>
+              </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbLink to="/checkout">Checkout</BreadcrumbLink>
+              <BreadcrumbLink asChild>
+                <Link to="/checkout">Checkout</Link>
+              </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
@@ -136,19 +142,29 @@ export default function OrderSuccessPage() {
         <div className="max-w-4xl mx-auto">
           {/* Success Header */}
           <div className="text-center mb-8">
-            <div className={`inline-flex items-center justify-center mb-6 transition-all duration-700 ${showAnimation ? "scale-0 rotate-180" : "scale-100 rotate-0"}`}>
+            <div className={`inline-flex items-center justify-center mb-6 transition-all duration-1000 ease-out ${showAnimation ? "scale-0 opacity-0" : "scale-100 opacity-100"}`}>
               <div className="relative">
-                <div className="absolute inset-0 bg-green-500 rounded-full blur-2xl opacity-30 animate-pulse"></div>
-                <div className="relative bg-gradient-to-br from-green-400 to-emerald-500 rounded-full p-6 shadow-2xl">
-                  <CheckCircle className="h-16 w-16 md:h-20 md:h-20 text-white" strokeWidth={2.5} />
+                {/* Animated Rings */}
+                <div className="absolute inset-0 bg-green-500 rounded-full blur-2xl opacity-20 animate-ping"></div>
+                <div className="absolute inset-0 bg-green-400 rounded-full blur-xl opacity-30 animate-pulse"></div>
+                
+                {/* Main Circle */}
+                <div className="relative bg-gradient-to-br from-green-400 via-green-500 to-emerald-600 rounded-full p-4 sm:p-6 md:p-8 shadow-2xl">
+                  {/* Checkmark with draw animation */}
+                  <div className="relative">
+                    <CheckCircle 
+                      className="h-12 w-12 sm:h-16 sm:w-16 md:h-20 md:w-20 text-white animate-check-draw" 
+                      strokeWidth={3}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
             
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-3">
+            <h1 className={`text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-3 transition-all duration-700 delay-300 ${showAnimation ? "opacity-0 translate-y-4" : "opacity-100 translate-y-0"}`}>
               Order Placed Successfully! 🎉
             </h1>
-            <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
+            <p className={`text-base sm:text-lg md:text-xl text-gray-600 max-w-2xl mx-auto transition-all duration-700 delay-500 ${showAnimation ? "opacity-0 translate-y-4" : "opacity-100 translate-y-0"}`}>
               Thank you for your order! We're preparing your fresh seafood with care.
             </p>
           </div>
@@ -519,7 +535,7 @@ export default function OrderSuccessPage() {
         </DialogContent>
       </Dialog>
       
-      {/* Confetti Animation CSS */}
+      {/* Animations CSS */}
       <style>{`
         @keyframes confetti {
           0% {
@@ -544,6 +560,24 @@ export default function OrderSuccessPage() {
         }
         .animate-progress {
           animation: progress 2s ease-in-out infinite;
+        }
+        @keyframes check-draw {
+          0% {
+            stroke-dasharray: 0 100;
+            opacity: 0;
+            transform: scale(0.8) rotate(-45deg);
+          }
+          50% {
+            opacity: 1;
+          }
+          100% {
+            stroke-dasharray: 100 100;
+            opacity: 1;
+            transform: scale(1) rotate(0deg);
+          }
+        }
+        .animate-check-draw {
+          animation: check-draw 0.8s ease-out forwards;
         }
       `}</style>
     </div>

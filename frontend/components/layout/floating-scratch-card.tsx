@@ -105,7 +105,7 @@ export function FloatingScratchCard() {
     <>
       {/* Floating Gift Box Button */}
       <button
-        className="fixed bottom-6 right-6 h-16 w-16 rounded-2xl shadow-xl z-40 bg-gradient-to-br from-pink-400 via-purple-400 to-purple-500 hover:from-pink-500 hover:via-purple-500 hover:to-purple-600 transition-all duration-300 flex items-center justify-center group"
+        className="fixed bottom-6 right-0 h-16 w-16 rounded-l-2xl shadow-xl z-40 bg-gradient-to-br from-pink-400 via-purple-400 to-purple-500 hover:from-pink-500 hover:via-purple-500 hover:to-purple-600 transition-all duration-300 flex items-center justify-center group"
         onClick={() => setIsOpen(true)}
       >
         <Gift className="h-8 w-8 text-white group-hover:scale-110 transition-transform" />
@@ -207,7 +207,7 @@ export function FloatingScratchCard() {
                 {/* Info Text */}
                 <p className="text-sm text-center text-gray-600 mt-4">
                   {isScratched 
-                    ? "🎉 Apply this code at checkout to get your discount!"
+                    ? "🎉 Apply this code at checkout to get your discount! Renews at 12 AM daily."
                     : "✨ Scratch the card above to reveal your exclusive discount!"
                   }
                 </p>

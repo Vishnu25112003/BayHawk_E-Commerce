@@ -23,6 +23,7 @@ import {
 import { useStore } from "@/lib/store"
 import { cn } from "@/lib/utils"
 import { notification } from "@/lib/notification"
+import { Link } from "react-router-dom"
 
 const savedAddresses = [
   {
@@ -195,11 +196,15 @@ export default function CheckoutPage() {
         <Breadcrumb className="mb-6">
           <BreadcrumbList>
             <BreadcrumbItem>
-              <BreadcrumbLink to="/">Home</BreadcrumbLink>
+              <BreadcrumbLink asChild>
+                <Link to="/">Home</Link>
+              </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbLink to="/cart">Shopping Cart</BreadcrumbLink>
+              <BreadcrumbLink asChild>
+                <Link to="/cart">Shopping Cart</Link>
+              </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>

@@ -43,8 +43,8 @@ export function OfferBanners() {
               />
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="text-center text-white px-2">
-                  <p className="text-sm md:text-base font-bold mb-1">{banner.title}</p>
-                  <p className="text-xs md:text-sm font-medium">{banner.subtitle}</p>
+                  <p className="text-sm md:text-base font-bold">{banner.title}</p>
+                  <p className="text-xs md:text-sm font-medium hidden md:block">{banner.subtitle}</p>
                 </div>
               </div>
             </div>

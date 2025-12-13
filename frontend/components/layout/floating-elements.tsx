@@ -52,7 +52,7 @@ export function FloatingElements({ hasGiftCard = false }: FloatingElementsProps)
       {/* Chatbot Window */}
       {isChatOpen && (
         <div className={cn(
-          "fixed right-6 w-[90vw] max-w-[380px] h-[500px] bg-card rounded-lg shadow-2xl border border-border overflow-hidden flex flex-col z-50 animate-in slide-in-from-bottom-5 duration-300",
+          "fixed right-0 w-[90vw] max-w-[380px] h-[500px] bg-card rounded-l-lg shadow-2xl border border-border overflow-hidden flex flex-col z-50 animate-in slide-in-from-bottom-5 duration-300",
           hasGiftCard ? "bottom-24" : "bottom-6"
         )}>
           {/* Chat Header */}
@@ -130,7 +130,7 @@ export function FloatingElements({ hasGiftCard = false }: FloatingElementsProps)
       {!isChatOpen && (
         <button
           className={cn(
-            "fixed right-6 h-16 w-16 rounded-2xl shadow-xl z-50 bg-gradient-to-br from-purple-500 via-purple-600 to-indigo-600 hover:from-purple-600 hover:via-purple-700 hover:to-indigo-700 transition-all duration-300 flex items-center justify-center group",
+            "fixed right-0 h-16 w-16 rounded-l-2xl shadow-xl z-50 bg-gradient-to-br from-blue-500 via-blue-600 to-blue-700 hover:from-blue-600 hover:via-blue-700 hover:to-blue-800 transition-all duration-300 flex items-center justify-center group",
             hasGiftCard ? "bottom-24" : "bottom-6"
           )}
           onClick={() => setIsChatOpen(true)}

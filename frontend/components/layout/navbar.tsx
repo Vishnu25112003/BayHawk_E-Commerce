@@ -1,7 +1,7 @@
 import type React from "react";
 
 import { useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Search,
   Heart,
@@ -17,10 +17,11 @@ import {
   Package,
   Gift,
   LogOut,
+  X,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+
 import { Badge } from "@/components/ui/badge";
 import {
   DropdownMenu,
@@ -32,49 +33,13 @@ import {
 
 import { useStore } from "@/lib/store";
 import { categories as categoriesData, products } from "@/lib/data";
-import { cn } from "@/lib/utils";
+
 import { NotificationsPanel } from "./notifications-panel";
 
 
-const seafoodCategories = categoriesData
-  .filter((c) =>
-    ["marine", "water", "shell", "fry", "combo", "exotics"].includes(c.id),
-  )
-  .map((c) => ({
-    href: `/products?category=${c.id}`,
-    label: c.name,
-    description: c.description,
-  }));
 
-const otherCategories = categoriesData
-  .filter((c) => ["chicken", "mutton", "eggs", "spices"].includes(c.id))
-  .map((c) => ({
-    href: `/products?category=${c.id}`,
-    label: c.name,
-    description: c.description,
-  }));
 
-const navLinks = [
-  { href: "/", label: "Home" },
-  {
-    href: "/products",
-    label: "Seafood",
-    children: [
-      { href: "/products", label: "All Seafood" },
-      ...seafoodCategories,
-    ],
-  },
-  {
-    href: "/products?type=other",
-    label: "Other Products",
-    children: [
-      { href: "/products?type=other", label: "All Other Products" },
-      ...otherCategories,
-    ],
-  },
-  { href: "/recipes", label: "Recipes" },
-  { href: "/contact", label: "Contact" },
-];
+
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { UnifiedAlertBanner } from "./unified-alert-banner";
@@ -282,9 +247,7 @@ const UserNav: React.FC<UserNavProps> = ({ user, onLogout }) => {
 };
 
 export function Navbar() {
-  const location = useLocation();
   const navigate = useNavigate();
-  const pathname = location.pathname;
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -444,90 +407,18 @@ export function Navbar() {
 
             <UserNav user={user} onLogout={handleLogout} />
 
-            <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
-              <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" className="md:hidden">
-                  <Menu className="h-5 w-5" />
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="right" className="w-[300px] sm:w-[350px]">
-                <div className="p-6">
-                  <Link
-                    to="/"
-                    className="flex items-center gap-2 shrink-0 mb-8"
-                  >
-                    <img
-                      src="https://bayhawk.clientstagingdemo.com/_next/static/media/BayHawk.207595da.svg"
-                      alt="BayHawk Logo"
-                      className="h-8 w-auto"
-                    />
-                  </Link>
-
-                  <nav className="flex flex-col gap-2">
-                    {navLinks.map((link) => (
-                      <div key={link.href}>
-                        <Link
-                          to={link.href}
-                          onClick={() =>
-                            !link.children && setMobileMenuOpen(false)
-                          }
-                          className={cn(
-                            "flex items-center justify-between text-lg font-medium p-3 rounded-lg transition-colors",
-                            pathname === link.href
-                              ? "bg-primary text-primary-foreground"
-                              : "hover:bg-secondary",
-                          )}
-                        >
-                          {link.label}
-                          {link.children && <ChevronDown className="h-5 w-5" />}
-                        </Link>
-                        {link.children && (
-                          <div className="flex flex-col gap-1 pt-2 pl-6">
-                            {link.children.map((child) => (
-                              <Link
-                                key={child.href}
-                                to={child.href}
-                                onClick={() => setMobileMenuOpen(false)}
-                                className="block p-3 text-base text-muted-foreground hover:bg-secondary hover:text-primary rounded-lg"
-                              >
-                                {child.label}
-                              </Link>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    ))}
-
-                    <div className="border-t my-4" />
-
-                    <Link
-                      to="/account/wallet"
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="flex items-center gap-3 p-3 text-base font-medium text-muted-foreground hover:bg-secondary hover:text-primary rounded-lg"
-                    >
-                      <Wallet className="h-5 w-5" />
-                      <span>My Wallet</span>
-                    </Link>
-                    <Link
-                      to="/account/favorites"
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="flex items-center gap-3 p-3 text-base font-medium text-muted-foreground hover:bg-secondary hover:text-primary rounded-lg"
-                    >
-                      <Heart className="h-5 w-5" />
-                      <span>Wishlist</span>
-                    </Link>
-                    <Link
-                      to="/track-order"
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="flex items-center gap-3 p-3 text-base font-medium text-muted-foreground hover:bg-secondary hover:text-primary rounded-lg"
-                    >
-                      <MapPin className="h-5 w-5" />
-                      <span>Track Order</span>
-                    </Link>
-                  </nav>
-                </div>
-              </SheetContent>
-            </Sheet>
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="md:hidden"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            >
+              {mobileMenuOpen ? (
+                <X className="h-5 w-5" />
+              ) : (
+                <Menu className="h-5 w-5" />
+              )}
+            </Button>
           </div>
         </div>
 
@@ -546,6 +437,107 @@ export function Navbar() {
               />
             </div>
           </form>
+        )}
+
+        {/* Mobile Menu Dropdown */}
+        {mobileMenuOpen && (
+          <div className="md:hidden bg-white border-t border-gray-200 shadow-lg max-h-[calc(100vh-80px)] overflow-y-auto scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+            <div className="p-4 pb-20">
+              {/* Categories with Images */}
+              <div className="mb-6">
+                <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">
+                  Categories
+                </h3>
+                <div className="space-y-1">
+                  {categoriesData.map((cat) => (
+                    <Link
+                      key={cat.id}
+                      to={`/products?category=${cat.id}`}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 transition-colors border border-gray-100"
+                    >
+                      <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center overflow-hidden shrink-0">
+                        <img
+                          src={cat.image || "/placeholder.svg"}
+                          alt={cat.name}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      <span className="text-sm font-medium text-gray-700 flex-1">
+                        {cat.name}
+                      </span>
+                      <ChevronRight className="h-4 w-4 text-gray-400 shrink-0" />
+                    </Link>
+                  ))}
+                </div>
+              </div>
+
+              <div className="border-t border-gray-300 my-4" />
+
+              {/* Quick Links */}
+              <div className="mb-6">
+                <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">
+                  Quick Links
+                </h3>
+                <div className="space-y-1">
+                  <Link
+                    to="/recipes"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="flex items-center gap-3 p-2 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-primary rounded-lg transition-colors"
+                  >
+                    <ChefHat className="h-4 w-4" />
+                    <span>Recipes</span>
+                  </Link>
+
+                  <Link
+                    to="/contact"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="flex items-center gap-3 p-2 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-primary rounded-lg transition-colors"
+                  >
+                    <MapPin className="h-4 w-4" />
+                    <span>Contact</span>
+                  </Link>
+                </div>
+              </div>
+
+              <div className="border-t border-gray-300 my-4" />
+
+              {/* My Account */}
+              <div>
+                <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">
+                  My Account
+                </h3>
+                <div className="space-y-1">
+                  <Link
+                    to="/account/wallet"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="flex items-center gap-3 p-2 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-primary rounded-lg transition-colors"
+                  >
+                    <Wallet className="h-4 w-4" />
+                    <span>My Wallet</span>
+                  </Link>
+
+                  <Link
+                    to="/account/favorites"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="flex items-center gap-3 p-2 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-primary rounded-lg transition-colors"
+                  >
+                    <Heart className="h-4 w-4" />
+                    <span>Wishlist</span>
+                  </Link>
+
+                  <Link
+                    to="/track-order"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="flex items-center gap-3 p-2 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-primary rounded-lg transition-colors"
+                  >
+                    <Package className="h-4 w-4" />
+                    <span>Track Order</span>
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
         )}
       </div>
     </header>

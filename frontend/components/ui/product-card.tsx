@@ -232,10 +232,10 @@ export function ProductCard({ product, className, viewMode = "grid" }: ProductCa
 
   // Grid View Layout (default)
   return (
-    <Link to={`/products/${product.id}`}>
+    <Link to={`/products/${product.id}`} className="block h-full">
       <div
         className={cn(
-          "group relative bg-white rounded-lg overflow-hidden border border-gray-200 transition-all duration-300 hover:shadow-lg hover:border-[#0A4D8C] max-w-xs",
+          "group relative bg-white rounded-lg overflow-hidden border border-gray-200 transition-all duration-300 hover:shadow-lg hover:border-[#0A4D8C] h-full flex flex-col",
           !product.inStock && "opacity-60",
           className,
         )}
@@ -243,7 +243,7 @@ export function ProductCard({ product, className, viewMode = "grid" }: ProductCa
         onMouseLeave={() => setIsHovered(false)}
       >
         {/* Compact Image */}
-        <div className="relative aspect-[4/3] overflow-hidden bg-gray-50">
+        <div className="relative w-full aspect-square overflow-hidden bg-gray-50 flex-shrink-0">
           <img
             src={product.image || "/placeholder.svg"}
             alt={product.name}
@@ -305,68 +305,81 @@ export function ProductCard({ product, className, viewMode = "grid" }: ProductCa
         </div>
 
         {/* Compact Content */}
-        <div className="p-3">
-          <div className="flex items-start justify-between mb-2">
+        <div className="p-2.5 sm:p-3 flex flex-col flex-1">
+          <div className="flex items-start justify-between mb-1.5 sm:mb-2">
             <div className="flex-1 min-w-0">
-              <h3 className="font-bold text-sm text-gray-900 line-clamp-1">{product.name}</h3>
+              <h3 className="font-bold text-xs sm:text-sm text-gray-900 line-clamp-2 leading-tight">{product.name}</h3>
               {product.nameTamil && (
-                <p className="text-xs text-sky-500 font-semibold mb-1">{product.nameTamil}</p>
-              )}
-              <div className="flex items-center gap-2 text-xs text-gray-500 mb-1">
-                <span>{product.weight}</span>
-                {product.pieces && <span>• {product.pieces}</span>}
-              </div>
-              {product.serves && (
-                <div className="inline-flex items-center bg-green-50 text-green-700 px-1.5 py-0.5 rounded text-xs font-medium">
-                  Serves {product.serves}
-                </div>
+                <p className="text-[10px] sm:text-xs text-sky-500 font-semibold mt-0.5">{product.nameTamil}</p>
               )}
             </div>
             
             {/* Rating */}
-            <div className="flex items-center gap-0.5 flex-shrink-0">
-              <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
-              <span className="text-xs font-medium text-gray-700">{product.rating}</span>
+            <div className="flex items-center gap-0.5 flex-shrink-0 ml-1">
+              <Star className="h-2.5 w-2.5 sm:h-3 sm:w-3 fill-yellow-400 text-yellow-400" />
+              <span className="text-[10px] sm:text-xs font-medium text-gray-700">{product.rating}</span>
             </div>
           </div>
 
+          <div className="flex items-center gap-1.5 text-[10px] sm:text-xs text-gray-500 mb-1.5">
+            <span className="truncate">{product.weight}</span>
+            {product.pieces && <span>• {product.pieces}</span>}
+          </div>
+
+          {product.serves && (
+            <div className="inline-flex items-center bg-green-50 text-green-700 px-1.5 py-0.5 rounded text-[10px] sm:text-xs font-medium mb-2 w-fit">
+              Serves {product.serves}
+            </div>
+          )}
+
+          {/* Spacer to push price/button to bottom */}
+          <div className="flex-1"></div>
+
           {/* Price and Add to Cart */}
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-1.5">
-              {product.originalPrice && (
-                <span className="text-xs text-gray-400 line-through">₹{product.originalPrice}</span>
+          <div className="flex items-end justify-between gap-2 mt-auto pt-2 border-t border-gray-100">
+            <div className="flex flex-col">
+              <div className="flex items-baseline gap-1.5">
+                <span className="text-base sm:text-lg font-bold text-[#0A4D8C]">₹{product.price}</span>
+                {product.originalPrice && (
+                  <span className="text-[10px] sm:text-xs text-gray-400 line-through">₹{product.originalPrice}</span>
+                )}
+              </div>
+              {discount > 0 && (
+                <span className="text-[9px] sm:text-[10px] font-semibold text-green-600">
+                  Save {discount}%
+                </span>
               )}
-              <span className="text-sm font-bold text-gray-900">₹{product.price}</span>
             </div>
 
             {product.inStock && (
               quantity > 0 ? (
-                <div className="flex items-center gap-1 bg-[#0A4D8C] rounded" onClick={(e) => e.preventDefault()}>
+                <div className="flex items-center gap-0.5 sm:gap-1 bg-[#0A4D8C] rounded flex-shrink-0" onClick={(e) => e.preventDefault()}>
                   <Button
                     size="sm"
                     variant="ghost"
-                    className="h-7 w-7 p-0 text-white hover:bg-[#0A4D8C]/80 hover:text-white rounded-l"
+                    className="h-6 w-6 sm:h-7 sm:w-7 p-0 text-white hover:bg-[#0A4D8C]/80 hover:text-white rounded-l"
                     onClick={handleDecrement}
                   >
-                    <Minus className="h-3 w-3" />
+                    <Minus className="h-2.5 w-2.5 sm:h-3 sm:w-3" />
                   </Button>
-                  <span className="text-xs font-bold text-white px-1 min-w-[20px] text-center">{quantity}</span>
+                  <span className="text-[10px] sm:text-xs font-bold text-white px-1 min-w-[16px] sm:min-w-[20px] text-center">{quantity}</span>
                   <Button
                     size="sm"
                     variant="ghost"
-                    className="h-7 w-7 p-0 text-white hover:bg-[#0A4D8C]/80 hover:text-white rounded-r"
+                    className="h-6 w-6 sm:h-7 sm:w-7 p-0 text-white hover:bg-[#0A4D8C]/80 hover:text-white rounded-r"
                     onClick={handleIncrement}
                   >
-                    <Plus className="h-3 w-3" />
+                    <Plus className="h-2.5 w-2.5 sm:h-3 sm:w-3" />
                   </Button>
                 </div>
               ) : (
                 <Button
                   size="sm"
-                  className="h-7 px-2 bg-[#0A4D8C] hover:bg-[#0A4D8C]/90 text-white text-xs font-medium rounded"
+                  className="h-7 sm:h-8 px-2 sm:px-3 bg-[#0A4D8C] hover:bg-[#0A4D8C]/90 text-white text-[10px] sm:text-xs font-medium rounded-md flex-shrink-0 shadow-sm"
                   onClick={handleAddToCart}
                 >
-                  <ShoppingCart className="h-3 w-3" />
+                  <ShoppingCart className="h-3 w-3 sm:h-3.5 sm:w-3.5 mr-1" />
+                  <span className="hidden sm:inline">Add</span>
                 </Button>
               )
             )}

@@ -837,7 +837,7 @@ export default function CheckoutPage() {
           setShowSpinner(open)
         }
       }}>
-        <DialogContent className="max-w-md p-0 overflow-hidden border-0 bg-gradient-to-b from-gray-900 via-black to-gray-900" onInteractOutside={(e) => {
+        <DialogContent className="max-w-[95vw] sm:max-w-md p-0 overflow-hidden border-0 bg-gradient-to-b from-gray-900 via-black to-gray-900" onInteractOutside={(e) => {
           // Prevent closing when clicking outside during spin or before result
           if (isSpinning || !spinResult) {
             e.preventDefault()
@@ -851,31 +851,31 @@ export default function CheckoutPage() {
                   handleCloseSpinner()
                 }
               }}
-              className="absolute top-4 right-4 z-50 bg-gray-800/80 hover:bg-gray-700 rounded-full p-2 transition-colors"
+              className="absolute top-2 right-2 sm:top-4 sm:right-4 z-50 bg-gray-800/80 hover:bg-gray-700 rounded-full p-1.5 sm:p-2 transition-colors"
               disabled={isSpinning || !spinResult}
             >
-              <X className="w-5 h-5 text-white" />
+              <X className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
             </button>
 
             {/* Header */}
-            <div className="text-center pt-8 pb-4 px-6">
-              <h2 className="text-3xl sm:text-4xl font-bold text-white mb-2">
+            <div className="text-center pt-6 sm:pt-8 pb-2 sm:pb-4 px-4 sm:px-6">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-1 sm:mb-2">
                 Spin To Win
               </h2>
-              <p className="text-sm text-gray-300">
+              <p className="text-xs sm:text-sm text-gray-300">
                 Spin the wheel to grab exclusive assured rewards
               </p>
             </div>
             
             {/* Spinning Wheel */}
-            <div className="relative flex items-center justify-center py-8 px-4">
+            <div className="relative flex items-center justify-center py-4 sm:py-8 px-2 sm:px-4">
               {/* Pointer Triangle at top */}
-              <div className="absolute top-2 left-1/2 -translate-x-1/2 z-20">
-                <div className="w-0 h-0 border-l-[15px] border-l-transparent border-r-[15px] border-r-transparent border-t-[25px] border-t-yellow-400 drop-shadow-lg"></div>
+              <div className="absolute top-1 sm:top-2 left-1/2 -translate-x-1/2 z-20">
+                <div className="w-0 h-0 border-l-[12px] sm:border-l-[15px] border-l-transparent border-r-[12px] sm:border-r-[15px] border-r-transparent border-t-[20px] sm:border-t-[25px] border-t-yellow-400 drop-shadow-lg"></div>
               </div>
 
               {/* Wheel Container */}
-              <div className="relative w-[300px] h-[300px]">
+              <div className="relative w-[260px] h-[260px] sm:w-[300px] sm:h-[300px]">
                 {/* Purple glow effect */}
                 <div className="absolute inset-0 rounded-full bg-purple-600 blur-3xl opacity-40"></div>
 
@@ -915,12 +915,12 @@ export default function CheckoutPage() {
                       >
                         <div className="flex flex-col items-center" style={{ transform: `rotate(-${angle}deg)` }}>
                           {/* Icon in white circle */}
-                          <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center mb-1 shadow-lg">
-                            <span className="text-xl">{segment.icon}</span>
+                          <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white flex items-center justify-center mb-0.5 sm:mb-1 shadow-lg">
+                            <span className="text-base sm:text-xl">{segment.icon}</span>
                           </div>
                           {/* Text */}
                           <div className="text-center">
-                            <p className="text-[9px] font-bold text-white leading-tight whitespace-pre-line">
+                            <p className="text-[7px] sm:text-[9px] font-bold text-white leading-tight whitespace-pre-line">
                               {segment.text}
                             </p>
                           </div>
@@ -930,26 +930,26 @@ export default function CheckoutPage() {
                   })}
 
                   {/* Center circle with coin icon */}
-                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-full flex items-center justify-center shadow-xl border-4 border-white z-10">
-                    <span className="text-3xl">💰</span>
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-full flex items-center justify-center shadow-xl border-2 sm:border-4 border-white z-10">
+                    <span className="text-2xl sm:text-3xl">💰</span>
                   </div>
                 </div>
               </div>
             </div>
 
             {/* Spin Button or Result */}
-            <div className="px-6 pb-6">
+            <div className="px-4 sm:px-6 pb-4 sm:pb-6">
               {spinResult ? (
-                <div className="space-y-3">
+                <div className="space-y-2 sm:space-y-3">
                   {/* Simple winner text */}
-                  <div className="text-center py-2">
-                    <p className="text-green-400 text-sm font-semibold mb-1">
+                  <div className="text-center py-1 sm:py-2">
+                    <p className="text-green-400 text-xs sm:text-sm font-semibold mb-1">
                       🎉 You won: {spinResult}
                     </p>
                   </div>
                   <Button
                     onClick={handleCloseSpinner}
-                    className="w-full h-14 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white text-lg font-bold rounded-xl shadow-lg"
+                    className="w-full h-12 sm:h-14 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white text-base sm:text-lg font-bold rounded-xl shadow-lg"
                   >
                     Claim Offer
                   </Button>
@@ -958,7 +958,7 @@ export default function CheckoutPage() {
                 <Button
                   onClick={spinWheel}
                   disabled={isSpinning}
-                  className="w-full h-14 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white text-lg font-bold rounded-xl shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full h-12 sm:h-14 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white text-base sm:text-lg font-bold rounded-xl shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isSpinning ? "Spinning..." : "Spin now"}
                 </Button>
@@ -966,7 +966,7 @@ export default function CheckoutPage() {
             </div>
 
             {/* Terms */}
-            <p className="text-center text-xs text-gray-500 pb-4 px-6">
+            <p className="text-center text-[10px] sm:text-xs text-gray-500 pb-3 sm:pb-4 px-4 sm:px-6">
               *Terms and conditions apply
             </p>
           </div>

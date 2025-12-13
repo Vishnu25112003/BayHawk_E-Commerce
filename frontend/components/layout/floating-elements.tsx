@@ -129,6 +129,7 @@ export function FloatingElements({ hasGiftCard = false }: FloatingElementsProps)
       {/* Floating Chat Button - Only show when chat is closed */}
       {!isChatOpen && (
         <button
+          data-onboarding="chatbot-button"
           className={cn(
             "fixed right-0 h-16 w-16 rounded-l-2xl shadow-xl z-50 bg-gradient-to-br from-blue-500 via-blue-600 to-blue-700 hover:from-blue-600 hover:via-blue-700 hover:to-blue-800 transition-all duration-300 flex items-center justify-center group",
             hasGiftCard ? "bottom-24" : "bottom-6"

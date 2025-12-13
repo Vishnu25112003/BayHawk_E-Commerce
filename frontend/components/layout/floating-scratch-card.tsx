@@ -105,6 +105,7 @@ export function FloatingScratchCard() {
     <>
       {/* Floating Gift Box Button */}
       <button
+        data-onboarding="scratch-card-button"
         className="fixed bottom-6 right-0 h-16 w-16 rounded-l-2xl shadow-xl z-40 bg-gradient-to-br from-pink-400 via-purple-400 to-purple-500 hover:from-pink-500 hover:via-purple-500 hover:to-purple-600 transition-all duration-300 flex items-center justify-center group"
         onClick={() => setIsOpen(true)}
       >

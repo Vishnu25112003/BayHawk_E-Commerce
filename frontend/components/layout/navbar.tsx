@@ -1,6 +1,6 @@
 import type React from "react";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   Search,
@@ -173,7 +173,7 @@ const UserNav: React.FC<UserNavProps> = ({ user, onLogout }) => {
   if (!user) {
     return (
       <Link to="/login">
-        <Button>Login</Button>
+        <Button data-onboarding="login-button">Login</Button>
       </Link>
     );
   }
@@ -188,7 +188,7 @@ const UserNav: React.FC<UserNavProps> = ({ user, onLogout }) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="relative h-10 w-10 rounded-full">
+        <Button variant="ghost" className="relative h-10 w-10 rounded-full" data-onboarding="profile-button">
           <Avatar className="h-10 w-10">
             {user.profileImage ? (
               <AvatarImage src={user.profileImage} alt={user.name} />
@@ -251,11 +251,24 @@ export function Navbar() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [isOnboardingActive, setIsOnboardingActive] = useState(false);
   const { cart, wishlist, user, setUser, walletBalance } = useStore();
 
   const [selectedLocation, setSelectedLocation] = useState("Central Chennai, 600001");
 
   const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+  useEffect(() => {
+    const handleOnboardingChange = (event: CustomEvent) => {
+      setIsOnboardingActive(event.detail.active);
+    };
+
+    window.addEventListener('onboardingActive', handleOnboardingChange as EventListener);
+
+    return () => {
+      window.removeEventListener('onboardingActive', handleOnboardingChange as EventListener);
+    };
+  }, []);
 
   const handleLogout = () => {
     setUser(null);
@@ -271,15 +284,15 @@ export function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      {/* Unified Alert Banner */}
-      <UnifiedAlertBanner />
+      {/* Unified Alert Banner - Hidden during onboarding */}
+      {!isOnboardingActive && <UnifiedAlertBanner />}
 
       {/* Main navbar */}
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between gap-4">
           {/* Left: Logo */}
           <div className="flex items-center">
-            <Link to="/" className="flex items-center gap-2 shrink-0">
+            <Link to="/" className="flex items-center gap-2 shrink-0" data-onboarding="logo">
               <img
                 src="https://bayhawk.clientstagingdemo.com/_next/static/media/BayHawk.207595da.svg"
                 alt="BayHawk Logo"

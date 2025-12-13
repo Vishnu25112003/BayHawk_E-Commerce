@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { FloatingElements } from "@/components/layout/floating-elements";
@@ -15,9 +16,23 @@ import { CouponBanner } from "@/components/home/coupon-banner";
 import { TestimonialsSection } from "@/components/home/testimonials-section";
 
 export default function HomePage() {
+  const [isOnboardingActive, setIsOnboardingActive] = useState(false);
+
+  useEffect(() => {
+    const handleOnboardingChange = (event: CustomEvent) => {
+      setIsOnboardingActive(event.detail.active);
+    };
+
+    window.addEventListener('onboardingActive', handleOnboardingChange as EventListener);
+
+    return () => {
+      window.removeEventListener('onboardingActive', handleOnboardingChange as EventListener);
+    };
+  }, []);
+
   return (
     <div className="min-h-screen flex flex-col bg-white">
-      <OfferPopup />
+      {!isOnboardingActive && <OfferPopup />}
       <Navbar />
       <main className="flex-1">
         {/* 1. Hero Carousel */}
@@ -49,7 +64,7 @@ export default function HomePage() {
       </main>
       <Footer />
       <FloatingElements hasGiftCard={true} />
-      <FloatingVideoPlayer />
+      {!isOnboardingActive && <FloatingVideoPlayer />}
       <FloatingScratchCard />
     </div>
   );

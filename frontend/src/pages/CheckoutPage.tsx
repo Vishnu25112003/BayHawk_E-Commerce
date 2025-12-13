@@ -468,11 +468,64 @@ export default function CheckoutPage() {
                       Add New Address
                     </Button>
                   </DialogTrigger>
-                  <DialogContent>
+                  <DialogContent className="max-w-md">
                     <DialogHeader>
                       <DialogTitle>Add New Address</DialogTitle>
                     </DialogHeader>
                     <div className="grid gap-4 py-4">
+                      {/* Current Location Button */}
+                      <Button
+                        type="button"
+                        variant="outline"
+                        className="w-full gap-2 border-primary/50 hover:bg-primary/5"
+                        onClick={() => {
+                          if (!navigator.geolocation) {
+                            notification.error("Geolocation is not supported by your browser.", "Not Supported")
+                            return
+                          }
+
+                          notification.info("Detecting your location...", "Please Wait")
+
+                          navigator.geolocation.getCurrentPosition(
+                            (position) => {
+                              const { latitude, longitude } = position.coords
+                              notification.success(
+                                `Location detected: Lat ${latitude.toFixed(4)}, Long ${longitude.toFixed(4)}`,
+                                "Location Found"
+                              )
+                              // Here you can use reverse geocoding API to get address from coordinates
+                            },
+                            (error) => {
+                              let errorMessage = "Unable to get your location."
+                              
+                              switch(error.code) {
+                                case error.PERMISSION_DENIED:
+                                  errorMessage = "Location permission denied. Please allow location access in your browser settings."
+                                  break
+                                case error.POSITION_UNAVAILABLE:
+                                  errorMessage = "Location information is unavailable. Please check your device settings."
+                                  break
+                                case error.TIMEOUT:
+                                  errorMessage = "Location request timed out. Please try again."
+                                  break
+                                default:
+                                  errorMessage = "An unknown error occurred while getting location."
+                              }
+                              
+                              notification.error(errorMessage, "Location Error")
+                            },
+                            {
+                              enableHighAccuracy: true,
+                              timeout: 10000,
+                              maximumAge: 0
+                            }
+                          )
+                        }}
+                      >
+                        <MapPin className="h-4 w-4 text-primary" />
+                        Use Current Location
+                      </Button>
+
                       <div className="grid grid-cols-2 gap-4">
                         <div>
                           <Label>Name</Label>
@@ -483,20 +536,48 @@ export default function CheckoutPage() {
                           <Input placeholder="Phone number" />
                         </div>
                       </div>
+                      
                       <div>
-                        <Label>Address</Label>
-                        <Input placeholder="Street address" />
+                        <Label>Search Location</Label>
+                        <div className="relative">
+                          <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                          <Input 
+                            placeholder="Search for area, street name..." 
+                            className="pl-10"
+                          />
+                        </div>
+                        <p className="text-xs text-muted-foreground mt-1">
+                          Start typing to search for your location
+                        </p>
                       </div>
+
+                      <div>
+                        <Label>Complete Address</Label>
+                        <Input placeholder="House/Flat No, Building Name, Street" />
+                      </div>
+                      
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <Label>Landmark</Label>
+                          <Input placeholder="Nearby landmark" />
+                        </div>
+                        <div>
+                          <Label>Area</Label>
+                          <Input placeholder="Area/Locality" />
+                        </div>
+                      </div>
+
                       <div className="grid grid-cols-2 gap-4">
                         <div>
                           <Label>City</Label>
-                          <Input placeholder="City" />
+                          <Input placeholder="City" defaultValue="Chennai" />
                         </div>
                         <div>
                           <Label>Pincode</Label>
                           <Input placeholder="Pincode" />
                         </div>
                       </div>
+
                       <Button className="w-full">Save Address</Button>
                     </div>
                   </DialogContent>

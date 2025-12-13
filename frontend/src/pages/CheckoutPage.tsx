@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { MapPin, Clock, CreditCard, Wallet, Gift, CloudRain, Plus, Check, Loader2, Smartphone, Building2, Banknote } from "lucide-react"
+import { MapPin, Clock, CreditCard, Wallet, Gift, CloudRain, Plus, Check, Loader2, Smartphone, Building2, Banknote, X } from "lucide-react"
 import { Navbar } from "@/components/layout/navbar"
 import { Footer } from "@/components/layout/footer"
 import { Button } from "@/components/ui/button"
@@ -24,6 +24,7 @@ import { useStore } from "@/lib/store"
 import { cn } from "@/lib/utils"
 import { notification } from "@/lib/notification"
 import { Link } from "react-router-dom"
+
 
 const savedAddresses = [
   {
@@ -144,23 +145,21 @@ export default function CheckoutPage() {
   const spinWheel = () => {
     setIsSpinning(true)
     
-    // Spin for 3 seconds
+    // Spin for 4 seconds
     setTimeout(() => {
       setIsSpinning(false)
-      // Random offer selection
+      // Random seafood offer selection (6 offers)
       const offers = [
-        "10% OFF on next order",
-        "₹50 Wallet Credit",
-        "Free Delivery",
-        "20% OFF on next order",
-        "₹100 Wallet Credit",
-        "Buy 1 Get 1 Free",
-        "15% OFF on next order",
-        "₹75 Wallet Credit"
+        "Free Fish Cleaning",
+        "₹100 OFF on Prawns",
+        "30 Days Free Delivery",
+        "₹50 Wallet Cash",
+        "Buy 1 Get 1 on Crabs",
+        "20% OFF Next Order"
       ]
       const randomOffer = offers[Math.floor(Math.random() * offers.length)]
       setSpinResult(randomOffer)
-    }, 3000)
+    }, 4000)
   }
 
   const handlePlaceOrder = async () => {
@@ -838,222 +837,138 @@ export default function CheckoutPage() {
           setShowSpinner(open)
         }
       }}>
-        <DialogContent className="max-w-[95vw] sm:max-w-[90vw] md:max-w-2xl lg:max-w-3xl max-h-[95vh] p-0 overflow-y-auto border-0" onInteractOutside={(e) => {
+        <DialogContent className="max-w-md p-0 overflow-hidden border-0 bg-gradient-to-b from-gray-900 via-black to-gray-900" onInteractOutside={(e) => {
           // Prevent closing when clicking outside during spin or before result
           if (isSpinning || !spinResult) {
             e.preventDefault()
           }
         }}>
-          {/* Background with confetti effect */}
-          <div className="absolute inset-0 bg-gradient-to-br from-purple-50 via-pink-50 to-yellow-50 opacity-50 pointer-events-none"></div>
-          
           <div className="relative">
-            <DialogHeader className="p-3 sm:p-4 md:p-6 pb-2 sticky top-0 bg-white/80 backdrop-blur-sm z-10">
-              <DialogTitle className="text-center text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-                {spinResult ? "🎉 Congratulations! 🎉" : "✨ Spin to Win! ✨"}
-              </DialogTitle>
-              {!spinResult && (
-                <p className="text-center text-gray-600 mt-1 sm:mt-2 text-xs sm:text-sm md:text-base px-2">
-                  Complete your order and win exciting rewards!
-                </p>
-              )}
-            </DialogHeader>
+            {/* Close Button */}
+            <button
+              onClick={() => {
+                if (!isSpinning && spinResult) {
+                  handleCloseSpinner()
+                }
+              }}
+              className="absolute top-4 right-4 z-50 bg-gray-800/80 hover:bg-gray-700 rounded-full p-2 transition-colors"
+              disabled={isSpinning || !spinResult}
+            >
+              <X className="w-5 h-5 text-white" />
+            </button>
+
+            {/* Header */}
+            <div className="text-center pt-8 pb-4 px-6">
+              <h2 className="text-3xl sm:text-4xl font-bold text-white mb-2">
+                Spin To Win
+              </h2>
+              <p className="text-sm text-gray-300">
+                Spin the wheel to grab exclusive assured rewards
+              </p>
+            </div>
             
-            <div className="flex flex-col items-center p-3 sm:p-4 md:p-6 pt-2 pb-4 sm:pb-6">
-              {/* Spin Wheel */}
-              <div className="relative w-[280px] h-[280px] sm:w-[320px] sm:h-[320px] md:w-[380px] md:h-[380px] lg:w-[420px] lg:h-[420px] mb-3 sm:mb-4 md:mb-6">
-                {/* Outer glow ring */}
-                <div className="absolute inset-0 rounded-full bg-gradient-to-r from-yellow-400 via-pink-500 to-purple-600 blur-xl opacity-30 animate-pulse"></div>
-                
-                {/* Wheel Container */}
-                <div 
+            {/* Spinning Wheel */}
+            <div className="relative flex items-center justify-center py-8 px-4">
+              {/* Pointer Triangle at top */}
+              <div className="absolute top-2 left-1/2 -translate-x-1/2 z-20">
+                <div className="w-0 h-0 border-l-[15px] border-l-transparent border-r-[15px] border-r-transparent border-t-[25px] border-t-yellow-400 drop-shadow-lg"></div>
+              </div>
+
+              {/* Wheel Container */}
+              <div className="relative w-[300px] h-[300px]">
+                {/* Purple glow effect */}
+                <div className="absolute inset-0 rounded-full bg-purple-600 blur-3xl opacity-40"></div>
+
+                {/* Spinning Wheel */}
+                <div
                   className={cn(
-                    "absolute inset-2 sm:inset-3 rounded-full shadow-2xl overflow-hidden",
+                    "relative w-full h-full rounded-full transition-transform duration-[4000ms] ease-out",
                     isSpinning && "animate-spin-wheel"
                   )}
                   style={{
-                    animationDuration: isSpinning ? "3s" : "0s",
-                    animationTimingFunction: "cubic-bezier(0.17, 0.67, 0.12, 0.99)"
+                    background: "conic-gradient(from 0deg, #8b5cf6 0deg 60deg, #a78bfa 60deg 120deg, #7c3aed 120deg 180deg, #a78bfa 180deg 240deg, #8b5cf6 240deg 300deg, #a78bfa 300deg 360deg)"
                   }}
                 >
-                  {/* Wheel Segments */}
-                  <svg viewBox="0 0 200 200" className="w-full h-full">
-                    <defs>
-                      {/* Gradients for each segment */}
-                      <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" style={{ stopColor: "#ef4444", stopOpacity: 1 }} />
-                        <stop offset="100%" style={{ stopColor: "#dc2626", stopOpacity: 1 }} />
-                      </linearGradient>
-                      <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" style={{ stopColor: "#3b82f6", stopOpacity: 1 }} />
-                        <stop offset="100%" style={{ stopColor: "#2563eb", stopOpacity: 1 }} />
-                      </linearGradient>
-                      <linearGradient id="grad3" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" style={{ stopColor: "#10b981", stopOpacity: 1 }} />
-                        <stop offset="100%" style={{ stopColor: "#059669", stopOpacity: 1 }} />
-                      </linearGradient>
-                      <linearGradient id="grad4" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" style={{ stopColor: "#f59e0b", stopOpacity: 1 }} />
-                        <stop offset="100%" style={{ stopColor: "#d97706", stopOpacity: 1 }} />
-                      </linearGradient>
-                      <linearGradient id="grad5" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" style={{ stopColor: "#8b5cf6", stopOpacity: 1 }} />
-                        <stop offset="100%" style={{ stopColor: "#7c3aed", stopOpacity: 1 }} />
-                      </linearGradient>
-                      <linearGradient id="grad6" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" style={{ stopColor: "#ec4899", stopOpacity: 1 }} />
-                        <stop offset="100%" style={{ stopColor: "#db2777", stopOpacity: 1 }} />
-                      </linearGradient>
-                      <linearGradient id="grad7" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" style={{ stopColor: "#f97316", stopOpacity: 1 }} />
-                        <stop offset="100%" style={{ stopColor: "#ea580c", stopOpacity: 1 }} />
-                      </linearGradient>
-                      <linearGradient id="grad8" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" style={{ stopColor: "#14b8a6", stopOpacity: 1 }} />
-                        <stop offset="100%" style={{ stopColor: "#0d9488", stopOpacity: 1 }} />
-                      </linearGradient>
-                    </defs>
+                  {/* Wheel segments with icons and text (6 segments) */}
+                  {[
+                    { icon: "🐟", text: "Free Fish\nCleaning", angle: 30 },
+                    { icon: "🦐", text: "₹100 OFF\non Prawns", angle: 90 },
+                    { icon: "🚚", text: "30 Days Free\nDelivery", angle: 150 },
+                    { icon: "💰", text: "₹50 Wallet\nCash", angle: 210 },
+                    { icon: "🦀", text: "Buy 1 Get 1\non Crabs", angle: 270 },
+                    { icon: "🎁", text: "20% OFF\nNext Order", angle: 330 },
+                  ].map((segment, index) => {
+                    const angle = segment.angle
+                    const rad = (angle - 90) * (Math.PI / 180)
+                    const x = 50 + 38 * Math.cos(rad)
+                    const y = 50 + 38 * Math.sin(rad)
                     
-                    {/* 8 Segments */}
-                    {[
-                      { fill: "url(#grad1)", text: "10% OFF", angle: 0 },
-                      { fill: "url(#grad2)", text: "₹50", angle: 45 },
-                      { fill: "url(#grad3)", text: "Free Ship", angle: 90 },
-                      { fill: "url(#grad4)", text: "20% OFF", angle: 135 },
-                      { fill: "url(#grad5)", text: "₹100", angle: 180 },
-                      { fill: "url(#grad6)", text: "BOGO", angle: 225 },
-                      { fill: "url(#grad7)", text: "15% OFF", angle: 270 },
-                      { fill: "url(#grad8)", text: "₹75", angle: 315 },
-                    ].map((segment, index) => {
-                      const angle = (360 / 8) * index
-                      const nextAngle = angle + (360 / 8)
-                      const startRad = (angle - 90) * (Math.PI / 180)
-                      const endRad = (nextAngle - 90) * (Math.PI / 180)
-                      
-                      const x1 = 100 + 100 * Math.cos(startRad)
-                      const y1 = 100 + 100 * Math.sin(startRad)
-                      const x2 = 100 + 100 * Math.cos(endRad)
-                      const y2 = 100 + 100 * Math.sin(endRad)
-                      
-                      const textAngle = angle + 22.5
-                      const textRad = (textAngle - 90) * (Math.PI / 180)
-                      const textX = 100 + 65 * Math.cos(textRad)
-                      const textY = 100 + 65 * Math.sin(textRad)
-                      
-                      return (
-                        <g key={index}>
-                          <path
-                            d={`M 100 100 L ${x1} ${y1} A 100 100 0 0 1 ${x2} ${y2} Z`}
-                            fill={segment.fill}
-                            stroke="white"
-                            strokeWidth="2"
-                          />
-                          <text
-                            x={textX}
-                            y={textY}
-                            fill="white"
-                            fontSize="12"
-                            fontWeight="bold"
-                            textAnchor="middle"
-                            dominantBaseline="middle"
-                            transform={`rotate(${textAngle}, ${textX}, ${textY})`}
-                            className="select-none"
-                          >
-                            {segment.text}
-                          </text>
-                        </g>
-                      )
-                    })}
-                    
-                    {/* Center circle with border */}
-                    <circle cx="100" cy="100" r="25" fill="white" stroke="#0A4D8C" strokeWidth="4" />
-                  </svg>
-                  
-                  {/* Center Icon */}
-                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                    <Gift className="h-8 w-8 sm:h-10 sm:w-10 md:h-12 md:w-12 text-[#0A4D8C]" />
-                  </div>
-                </div>
-                
-                {/* Pointer/Arrow */}
-                <div className="absolute -top-4 sm:-top-5 md:-top-6 left-1/2 -translate-x-1/2 z-30">
-                  <div className="relative">
-                    <div className="w-0 h-0 border-l-[18px] sm:border-l-[22px] md:border-l-[26px] border-l-transparent border-r-[18px] sm:border-r-[22px] md:border-r-[26px] border-r-transparent border-t-[36px] sm:border-t-[44px] md:border-t-[52px] border-t-red-600 drop-shadow-2xl"></div>
-                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[15px] sm:border-l-[18px] md:border-l-[22px] border-l-transparent border-r-[15px] sm:border-r-[18px] md:border-r-[22px] border-r-transparent border-t-[30px] sm:border-t-[36px] md:border-t-[44px] border-t-red-500"></div>
-                  </div>
-                </div>
-                
-                {/* Decorative dots around wheel */}
-                {[...Array(12)].map((_, i) => {
-                  const angle = (360 / 12) * i
-                  const rad = (angle - 90) * (Math.PI / 180)
-                  const x = 50 + 48 * Math.cos(rad)
-                  const y = 50 + 48 * Math.sin(rad)
-                  return (
-                    <div
-                      key={i}
-                      className="absolute w-1.5 h-1.5 sm:w-2 sm:h-2 bg-yellow-400 rounded-full animate-pulse"
-                      style={{
-                        left: `${x}%`,
-                        top: `${y}%`,
-                        animationDelay: `${i * 0.1}s`
-                      }}
-                    />
-                  )
-                })}
-              </div>
+                    return (
+                      <div
+                        key={index}
+                        className="absolute"
+                        style={{
+                          left: `${x}%`,
+                          top: `${y}%`,
+                          transform: `translate(-50%, -50%) rotate(${angle}deg)`
+                        }}
+                      >
+                        <div className="flex flex-col items-center" style={{ transform: `rotate(-${angle}deg)` }}>
+                          {/* Icon in white circle */}
+                          <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center mb-1 shadow-lg">
+                            <span className="text-xl">{segment.icon}</span>
+                          </div>
+                          {/* Text */}
+                          <div className="text-center">
+                            <p className="text-[9px] font-bold text-white leading-tight whitespace-pre-line">
+                              {segment.text}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    )
+                  })}
 
-              {/* Result */}
-              {spinResult ? (
-                <div className="text-center space-y-3 sm:space-y-4 md:space-y-6 w-full animate-in fade-in zoom-in duration-500 px-2">
-                  <div className="relative">
-                    <div className="absolute inset-0 bg-gradient-to-r from-green-400 to-emerald-400 blur-xl opacity-30"></div>
-                    <div className="relative bg-gradient-to-br from-green-50 to-emerald-50 border-2 sm:border-3 md:border-4 border-green-500 rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 shadow-xl">
-                      <div className="text-4xl sm:text-5xl md:text-6xl mb-2 sm:mb-3 md:mb-4">🎊</div>
-                      <p className="text-lg sm:text-xl md:text-2xl font-bold text-green-700 mb-2 sm:mb-3">You Won!</p>
-                      <p className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent break-words">
-                        {spinResult}
-                      </p>
-                      <p className="text-xs sm:text-sm text-gray-600 mt-2 sm:mt-3 md:mt-4">
-                        Your reward will be automatically applied
-                      </p>
-                    </div>
+                  {/* Center circle with coin icon */}
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-full flex items-center justify-center shadow-xl border-4 border-white z-10">
+                    <span className="text-3xl">💰</span>
                   </div>
-                  <Button 
+                </div>
+              </div>
+            </div>
+
+            {/* Spin Button or Result */}
+            <div className="px-6 pb-6">
+              {spinResult ? (
+                <div className="space-y-3">
+                  {/* Simple winner text */}
+                  <div className="text-center py-2">
+                    <p className="text-green-400 text-sm font-semibold mb-1">
+                      🎉 You won: {spinResult}
+                    </p>
+                  </div>
+                  <Button
                     onClick={handleCloseSpinner}
-                    className="w-full h-12 sm:h-13 md:h-14 text-base sm:text-lg font-semibold bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 shadow-lg"
-                    size="lg"
+                    className="w-full h-14 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white text-lg font-bold rounded-xl shadow-lg"
                   >
-                    Continue to Order Success
+                    Claim Offer
                   </Button>
                 </div>
               ) : (
-                <div className="text-center space-y-3 sm:space-y-4 px-2">
-                  {isSpinning ? (
-                    <div className="space-y-2 sm:space-y-3">
-                      <div className="flex justify-center">
-                        <Loader2 className="h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8 animate-spin text-purple-600" />
-                      </div>
-                      <p className="text-base sm:text-lg md:text-xl font-semibold text-gray-700 animate-pulse">
-                        Spinning the wheel...
-                      </p>
-                      <p className="text-xs sm:text-sm text-gray-500">
-                        Good luck! 🍀
-                      </p>
-                    </div>
-                  ) : (
-                    <div className="space-y-2 sm:space-y-3">
-                      <p className="text-sm sm:text-base md:text-lg font-medium text-gray-700">
-                        Get ready for your reward!
-                      </p>
-                      <p className="text-xs sm:text-sm text-gray-500">
-                        The wheel will spin automatically
-                      </p>
-                    </div>
-                  )}
-                </div>
+                <Button
+                  onClick={spinWheel}
+                  disabled={isSpinning}
+                  className="w-full h-14 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white text-lg font-bold rounded-xl shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isSpinning ? "Spinning..." : "Spin now"}
+                </Button>
               )}
             </div>
+
+            {/* Terms */}
+            <p className="text-center text-xs text-gray-500 pb-4 px-6">
+              *Terms and conditions apply
+            </p>
           </div>
         </DialogContent>
       </Dialog>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { useSearchParams, Link, useNavigate } from "react-router-dom"
-import { CheckCircle, Package, Mail, Bell, Truck, MapPin, Phone, Download, Share2, Gift, XCircle, Clock, AlertTriangle } from "lucide-react"
+import { CheckCircle, Package, Mail, Bell, Truck, MapPin, Download, Share2, XCircle, Clock, AlertTriangle } from "lucide-react"
 import { Navbar } from "@/components/layout/navbar"
 import { Footer } from "@/components/layout/footer"
 import { Button } from "@/components/ui/button"
@@ -138,22 +138,22 @@ export default function OrderSuccessPage() {
         </div>
       )}
 
-      <main className="flex-1 container mx-auto px-4 py-8 md:py-12">
-        <div className="max-w-4xl mx-auto">
+      <main className="flex-1 container mx-auto px-4 py-6 sm:py-8 md:py-12">
+        <div className="max-w-6xl mx-auto">
           {/* Success Header */}
-          <div className="text-center mb-8">
-            <div className={`inline-flex items-center justify-center mb-6 transition-all duration-1000 ease-out ${showAnimation ? "scale-0 opacity-0" : "scale-100 opacity-100"}`}>
+          <div className="text-center mb-6 sm:mb-8 md:mb-10">
+            <div className={`inline-flex items-center justify-center mb-4 sm:mb-6 transition-all duration-1000 ease-out ${showAnimation ? "scale-0 opacity-0" : "scale-100 opacity-100"}`}>
               <div className="relative">
                 {/* Animated Rings */}
                 <div className="absolute inset-0 bg-green-500 rounded-full blur-2xl opacity-20 animate-ping"></div>
                 <div className="absolute inset-0 bg-green-400 rounded-full blur-xl opacity-30 animate-pulse"></div>
                 
                 {/* Main Circle */}
-                <div className="relative bg-gradient-to-br from-green-400 via-green-500 to-emerald-600 rounded-full p-4 sm:p-6 md:p-8 shadow-2xl">
+                <div className="relative bg-gradient-to-br from-green-400 via-green-500 to-emerald-600 rounded-full p-3 sm:p-5 md:p-7 lg:p-8 shadow-2xl">
                   {/* Checkmark with draw animation */}
                   <div className="relative">
                     <CheckCircle 
-                      className="h-12 w-12 sm:h-16 sm:w-16 md:h-20 md:w-20 text-white animate-check-draw" 
+                      className="h-10 w-10 sm:h-14 sm:w-14 md:h-16 md:w-16 lg:h-20 lg:w-20 text-white animate-check-draw" 
                       strokeWidth={3}
                     />
                   </div>
@@ -161,40 +161,40 @@ export default function OrderSuccessPage() {
               </div>
             </div>
             
-            <h1 className={`text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-3 transition-all duration-700 delay-300 ${showAnimation ? "opacity-0 translate-y-4" : "opacity-100 translate-y-0"}`}>
+            <h1 className={`text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-gray-900 mb-2 sm:mb-3 px-4 transition-all duration-700 delay-300 ${showAnimation ? "opacity-0 translate-y-4" : "opacity-100 translate-y-0"}`}>
               Order Placed Successfully! 🎉
             </h1>
-            <p className={`text-base sm:text-lg md:text-xl text-gray-600 max-w-2xl mx-auto transition-all duration-700 delay-500 ${showAnimation ? "opacity-0 translate-y-4" : "opacity-100 translate-y-0"}`}>
+            <p className={`text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 max-w-2xl mx-auto px-4 transition-all duration-700 delay-500 ${showAnimation ? "opacity-0 translate-y-4" : "opacity-100 translate-y-0"}`}>
               Thank you for your order! We're preparing your fresh seafood with care.
             </p>
           </div>
 
-          <div className="grid lg:grid-cols-3 gap-6">
+          <div className="grid lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6">
             {/* Left Column - Order Details */}
-            <div className="lg:col-span-2 space-y-6">
+            <div className="lg:col-span-2 space-y-4 sm:space-y-5 md:space-y-6">
               {/* Order ID Card */}
               <Card className="border-2 border-green-200 shadow-lg">
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between mb-4">
-                    <div>
-                      <p className="text-sm text-gray-600 mb-1">Order ID</p>
-                      <p className="text-2xl font-bold font-mono text-[#0A4D8C]">{orderId}</p>
+                <CardContent className="p-4 sm:p-5 md:p-6">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4 mb-4">
+                    <div className="flex-1">
+                      <p className="text-xs sm:text-sm text-gray-600 mb-1">Order ID</p>
+                      <p className="text-lg sm:text-xl md:text-2xl font-bold font-mono text-[#0A4D8C] break-all">{orderId}</p>
                     </div>
-                    <Badge className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 text-sm">
+                    <Badge className="bg-green-500 hover:bg-green-600 text-white px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm self-start sm:self-auto">
                       Confirmed
                     </Badge>
                   </div>
                   
-                  <Separator className="my-4" />
+                  <Separator className="my-3 sm:my-4" />
                   
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-2 gap-3 sm:gap-4">
                     <div>
                       <p className="text-xs text-gray-500 mb-1">Order Date</p>
-                      <p className="font-semibold">{new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</p>
+                      <p className="text-sm sm:text-base font-semibold">{new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</p>
                     </div>
                     <div>
                       <p className="text-xs text-gray-500 mb-1">Order Time</p>
-                      <p className="font-semibold">{new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })}</p>
+                      <p className="text-sm sm:text-base font-semibold">{new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })}</p>
                     </div>
                   </div>
                 </CardContent>
@@ -202,38 +202,38 @@ export default function OrderSuccessPage() {
 
               {/* Delivery Timeline - Amazon Style */}
               <Card className="border-2 border-gray-200">
-                <CardHeader className="bg-gradient-to-r from-[#0A4D8C]/5 to-blue-50">
-                  <div className="flex items-center justify-between">
-                    <CardTitle className="flex items-center gap-2 text-lg">
-                      <Truck className="h-5 w-5 text-[#0A4D8C]" />
+                <CardHeader className="bg-gradient-to-r from-[#0A4D8C]/5 to-blue-50 p-4 sm:p-5 md:p-6">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                    <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
+                      <Truck className="h-4 w-4 sm:h-5 sm:w-5 text-[#0A4D8C]" />
                       Delivery Timeline
                     </CardTitle>
-                    <Badge className="bg-green-600 text-white">On Track</Badge>
+                    <Badge className="bg-green-600 text-white text-xs sm:text-sm self-start sm:self-auto">On Track</Badge>
                   </div>
-                  <div className="mt-3 flex items-center gap-2 text-sm">
-                    <MapPin className="h-4 w-4 text-gray-600" />
+                  <div className="mt-3 flex items-start sm:items-center gap-2 text-xs sm:text-sm">
+                    <MapPin className="h-4 w-4 text-gray-600 shrink-0 mt-0.5 sm:mt-0" />
                     <span className="text-gray-700 font-medium">Estimated Delivery: Today, 4:00 PM - 7:00 PM</span>
                   </div>
                 </CardHeader>
-                <CardContent className="pt-6">
+                <CardContent className="pt-4 sm:pt-5 md:pt-6 p-4 sm:p-5 md:p-6">
                   <div className="relative">
                     {/* Vertical Progress Line */}
-                    <div className="absolute left-[19px] top-0 bottom-0 w-0.5 bg-gradient-to-b from-green-500 via-[#0A4D8C] to-gray-300" />
+                    <div className="absolute left-[15px] sm:left-[19px] top-0 bottom-0 w-0.5 bg-gradient-to-b from-green-500 via-[#0A4D8C] to-gray-300" />
                     
-                    <div className="space-y-8">
+                    <div className="space-y-6 sm:space-y-8">
                       {/* Step 1: Order Placed */}
-                      <div className="relative flex gap-4">
-                        <div className="relative z-10 w-10 h-10 rounded-full bg-green-500 flex items-center justify-center shrink-0 shadow-lg ring-4 ring-green-100">
-                          <CheckCircle className="h-5 w-5 text-white" strokeWidth={2.5} />
+                      <div className="relative flex gap-3 sm:gap-4">
+                        <div className="relative z-10 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-green-500 flex items-center justify-center shrink-0 shadow-lg ring-2 sm:ring-4 ring-green-100">
+                          <CheckCircle className="h-4 w-4 sm:h-5 sm:w-5 text-white" strokeWidth={2.5} />
                         </div>
                         <div className="flex-1 pb-2">
-                          <div className="flex items-center justify-between mb-1">
-                            <h4 className="font-bold text-gray-900">Order Placed</h4>
+                          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-2 mb-1">
+                            <h4 className="text-sm sm:text-base font-bold text-gray-900">Order Placed</h4>
                             <span className="text-xs text-gray-500">{new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })}</span>
                           </div>
-                          <p className="text-sm text-gray-600 mb-2">Your order has been confirmed and received</p>
-                          <div className="bg-green-50 border border-green-200 rounded-lg p-3 space-y-1">
-                            <p className="text-xs text-green-800"><span className="font-semibold">Order ID:</span> {orderId}</p>
+                          <p className="text-xs sm:text-sm text-gray-600 mb-2">Your order has been confirmed and received</p>
+                          <div className="bg-green-50 border border-green-200 rounded-lg p-2 sm:p-3 space-y-1">
+                            <p className="text-xs text-green-800 break-all"><span className="font-semibold">Order ID:</span> {orderId}</p>
                             <p className="text-xs text-green-800"><span className="font-semibold">Payment:</span> Completed via UPI</p>
                             <p className="text-xs text-green-800"><span className="font-semibold">Invoice:</span> Sent to your email</p>
                           </div>
@@ -369,32 +369,32 @@ export default function OrderSuccessPage() {
             </div>
 
             {/* Right Column - Quick Actions */}
-            <div className="space-y-6">
+            <div className="space-y-4 sm:space-y-5 md:space-y-6">
               {/* Cancel Order Card */}
               {canCancel && (
                 <Card className="border-2 border-orange-200 bg-gradient-to-br from-orange-50 to-red-50">
-                  <CardContent className="p-6">
-                    <div className="flex items-center justify-between mb-4">
+                  <CardContent className="p-4 sm:p-5 md:p-6">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
                       <div className="flex items-center gap-2">
-                        <Clock className="h-5 w-5 text-orange-600" />
-                        <span className="text-sm font-semibold text-orange-900">Cancel Order</span>
+                        <Clock className="h-4 w-4 sm:h-5 sm:w-5 text-orange-600" />
+                        <span className="text-xs sm:text-sm font-semibold text-orange-900">Cancel Order</span>
                       </div>
-                      <div className="flex items-center gap-2 bg-white px-3 py-1.5 rounded-full border-2 border-orange-300 shadow-sm">
-                        <Clock className="h-4 w-4 text-orange-600 animate-pulse" />
-                        <span className="text-lg font-bold font-mono text-orange-600">
+                      <div className="flex items-center gap-2 bg-white px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full border-2 border-orange-300 shadow-sm self-start sm:self-auto">
+                        <Clock className="h-3 w-3 sm:h-4 sm:w-4 text-orange-600 animate-pulse" />
+                        <span className="text-base sm:text-lg font-bold font-mono text-orange-600">
                           {formatTime(timeLeft)}
                         </span>
                       </div>
                     </div>
-                    <p className="text-xs text-orange-700 mb-4">
+                    <p className="text-xs text-orange-700 mb-3 sm:mb-4">
                       You can cancel this order within 15 minutes of placing it
                     </p>
                     <Button
                       variant="destructive"
-                      className="w-full gap-2 bg-red-600 hover:bg-red-700 h-12"
+                      className="w-full gap-2 bg-red-600 hover:bg-red-700 h-10 sm:h-11 md:h-12 text-sm sm:text-base"
                       onClick={() => setShowCancelDialog(true)}
                     >
-                      <XCircle className="h-5 w-5" />
+                      <XCircle className="h-4 w-4 sm:h-5 sm:w-5" />
                       Cancel Order
                     </Button>
                   </CardContent>
@@ -416,67 +416,39 @@ export default function OrderSuccessPage() {
               )}
 
               {/* Quick Actions Card */}
-              <Card className="sticky top-24">
-                <CardHeader>
-                  <CardTitle>Quick Actions</CardTitle>
+              <Card className="lg:sticky lg:top-24">
+                <CardHeader className="p-4 sm:p-5 md:p-6">
+                  <CardTitle className="text-base sm:text-lg">Quick Actions</CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-3">
+                <CardContent className="space-y-2 sm:space-y-3 p-4 sm:p-5 md:p-6 pt-0">
                   <Link to="/account/orders" className="block">
-                    <Button variant="outline" className="w-full justify-start gap-2 h-12">
+                    <Button variant="outline" className="w-full justify-start gap-2 h-10 sm:h-11 md:h-12 text-sm sm:text-base">
                       <Package className="h-4 w-4" />
                       View Order Details
                     </Button>
                   </Link>
                   <Link to="/track-order" className="block">
-                    <Button variant="outline" className="w-full justify-start gap-2 h-12">
+                    <Button variant="outline" className="w-full justify-start gap-2 h-10 sm:h-11 md:h-12 text-sm sm:text-base">
                       <MapPin className="h-4 w-4" />
                       Track Order
                     </Button>
                   </Link>
-                  <Button variant="outline" className="w-full justify-start gap-2 h-12">
+                  <Button variant="outline" className="w-full justify-start gap-2 h-10 sm:h-11 md:h-12 text-sm sm:text-base">
                     <Download className="h-4 w-4" />
                     Download Invoice
                   </Button>
-                  <Button variant="outline" className="w-full justify-start gap-2 h-12">
+                  <Button variant="outline" className="w-full justify-start gap-2 h-10 sm:h-11 md:h-12 text-sm sm:text-base">
                     <Share2 className="h-4 w-4" />
                     Share Order
                   </Button>
                   
-                  <Separator className="my-4" />
+                  <Separator className="my-3 sm:my-4" />
                   
                   <Link to="/products" className="block">
-                    <Button className="w-full h-12 bg-[#0A4D8C] hover:bg-[#083d6f]">
+                    <Button className="w-full h-10 sm:h-11 md:h-12 bg-[#0A4D8C] hover:bg-[#083d6f] text-sm sm:text-base">
                       Continue Shopping
                     </Button>
                   </Link>
-                </CardContent>
-              </Card>
-
-              {/* Support Card */}
-              <Card className="bg-gradient-to-br from-[#0A4D8C] to-[#0d5fa3] text-white">
-                <CardContent className="p-6">
-                  <div className="text-center space-y-3">
-                    <Phone className="h-8 w-8 mx-auto" />
-                    <h3 className="font-semibold text-lg">Need Help?</h3>
-                    <p className="text-sm text-white/90">Our support team is here for you</p>
-                    <Button variant="secondary" className="w-full">
-                      Contact Support
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Reward Card */}
-              <Card className="bg-gradient-to-br from-amber-50 to-yellow-50 border-2 border-amber-200">
-                <CardContent className="p-6 text-center">
-                  <Gift className="h-10 w-10 mx-auto text-amber-600 mb-3" />
-                  <h3 className="font-semibold text-amber-900 mb-2">Reward Unlocked!</h3>
-                  <p className="text-sm text-amber-800 mb-3">
-                    You earned 50 points with this order
-                  </p>
-                  <Badge className="bg-amber-500 hover:bg-amber-600">
-                    View Rewards
-                  </Badge>
                 </CardContent>
               </Card>
             </div>

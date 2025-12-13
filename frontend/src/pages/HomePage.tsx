@@ -3,7 +3,7 @@ import { Footer } from "@/components/layout/footer";
 import { FloatingElements } from "@/components/layout/floating-elements";
 import { OfferPopup } from "@/components/layout/offer-popup";
 import { FloatingVideoPlayer } from "@/components/layout/floating-video-player";
-import { FloatingSpinWheel } from "@/components/layout/floating-spin-wheel";
+import { FloatingScratchCard } from "@/components/layout/floating-scratch-card";
 import { HeroCarousel } from "@/components/home/hero-carousel";
 import { ServiceCards } from "@/components/home/service-cards";
 import { BestSellerProducts } from "@/components/home/best-seller-products";
@@ -50,7 +50,7 @@ export default function HomePage() {
       <Footer />
       <FloatingElements hasGiftCard={true} />
       <FloatingVideoPlayer />
-      <FloatingSpinWheel />
+      <FloatingScratchCard />
     </div>
   );
 }

@@ -441,11 +441,11 @@ export function Navbar() {
 
         {/* Mobile Menu Dropdown */}
         {mobileMenuOpen && (
-          <div className="md:hidden bg-white border-t border-gray-200 shadow-lg max-h-[calc(100vh-80px)] overflow-y-auto scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+          <div className="md:hidden bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 shadow-lg max-h-[calc(100vh-80px)] overflow-y-auto scrollbar-hide">
             <div className="p-4 pb-20">
               {/* Categories with Images */}
               <div className="mb-6">
-                <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">
+                <h3 className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">
                   Categories
                 </h3>
                 <div className="space-y-1">
@@ -454,16 +454,16 @@ export function Navbar() {
                       key={cat.id}
                       to={`/products?category=${cat.id}`}
                       onClick={() => setMobileMenuOpen(false)}
-                      className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 transition-colors border border-gray-100"
+                      className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors border border-gray-100 dark:border-gray-700"
                     >
-                      <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center overflow-hidden shrink-0">
+                      <div className="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center overflow-hidden shrink-0">
                         <img
                           src={cat.image || "/placeholder.svg"}
                           alt={cat.name}
                           className="w-full h-full object-cover"
                         />
                       </div>
-                      <span className="text-sm font-medium text-gray-700 flex-1">
+                      <span className="text-sm font-medium text-gray-700 dark:text-gray-200 flex-1">
                         {cat.name}
                       </span>
                       <ChevronRight className="h-4 w-4 text-gray-400 shrink-0" />
@@ -472,18 +472,18 @@ export function Navbar() {
                 </div>
               </div>
 
-              <div className="border-t border-gray-300 my-4" />
+              <div className="border-t border-gray-300 dark:border-gray-600 my-4" />
 
               {/* Quick Links */}
               <div className="mb-6">
-                <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">
+                <h3 className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">
                   Quick Links
                 </h3>
                 <div className="space-y-1">
                   <Link
                     to="/recipes"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="flex items-center gap-3 p-2 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-primary rounded-lg transition-colors"
+                    className="flex items-center gap-3 p-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-primary rounded-lg transition-colors"
                   >
                     <ChefHat className="h-4 w-4" />
                     <span>Recipes</span>
@@ -492,7 +492,7 @@ export function Navbar() {
                   <Link
                     to="/contact"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="flex items-center gap-3 p-2 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-primary rounded-lg transition-colors"
+                    className="flex items-center gap-3 p-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-primary rounded-lg transition-colors"
                   >
                     <MapPin className="h-4 w-4" />
                     <span>Contact</span>
@@ -500,18 +500,18 @@ export function Navbar() {
                 </div>
               </div>
 
-              <div className="border-t border-gray-300 my-4" />
+              <div className="border-t border-gray-300 dark:border-gray-600 my-4" />
 
               {/* My Account */}
               <div>
-                <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">
+                <h3 className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">
                   My Account
                 </h3>
                 <div className="space-y-1">
                   <Link
                     to="/account/wallet"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="flex items-center gap-3 p-2 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-primary rounded-lg transition-colors"
+                    className="flex items-center gap-3 p-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-primary rounded-lg transition-colors"
                   >
                     <Wallet className="h-4 w-4" />
                     <span>My Wallet</span>
@@ -520,7 +520,7 @@ export function Navbar() {
                   <Link
                     to="/account/favorites"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="flex items-center gap-3 p-2 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-primary rounded-lg transition-colors"
+                    className="flex items-center gap-3 p-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-primary rounded-lg transition-colors"
                   >
                     <Heart className="h-4 w-4" />
                     <span>Wishlist</span>
@@ -529,7 +529,7 @@ export function Navbar() {
                   <Link
                     to="/track-order"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="flex items-center gap-3 p-2 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-primary rounded-lg transition-colors"
+                    className="flex items-center gap-3 p-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-primary rounded-lg transition-colors"
                   >
                     <Package className="h-4 w-4" />
                     <span>Track Order</span>

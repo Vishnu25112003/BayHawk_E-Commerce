@@ -101,7 +101,7 @@ const paymentMethods = [
 
 export default function CheckoutPage() {
   const navigate = useNavigate()
-  const { cart, walletBalance, clearCart, user } = useStore()
+  const { cart, walletBalance, clearCart } = useStore()
   
   // Check if this is a direct checkout (Buy Now) or cart checkout
   const searchParams = new URLSearchParams(window.location.search)
@@ -124,7 +124,6 @@ export default function CheckoutPage() {
   const [deliveryInstructions, setDeliveryInstructions] = useState("")
   
   // Check if user is premium (you can adjust this logic based on your user model)
-  const isPremiumUser = user?.isPremium || false
 
   const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0)
   const deliveryFee = subtotal > 500 ? 0 : 40

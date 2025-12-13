@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
-import { Package, ChevronRight, Star, Eye, MessageSquare, Check, Phone, User, ChevronDown, MapPin, CreditCard } from "lucide-react"
+import { Package, Star, Eye, MessageSquare, Check, Phone, User, ChevronDown, MapPin, CreditCard } from "lucide-react"
 import { Navbar } from "@/components/layout/navbar"
 import { Footer } from "@/components/layout/footer"
 import { Button } from "@/components/ui/button"

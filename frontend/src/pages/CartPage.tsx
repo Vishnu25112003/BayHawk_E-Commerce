@@ -19,13 +19,12 @@ import {
 } from "@/components/ui/breadcrumb"
 import { products } from "@/lib/data"
 import { useStore } from "@/lib/store"
-import { notification } from "@/lib/notification"
 
 export default function CartPage() {
   const navigate = useNavigate()
   const { cart, removeFromCart, updateQuantity, clearCart } = useStore()
-  const [couponCode, setCouponCode] = useState("")
-  const [appliedCoupon, setAppliedCoupon] = useState<string | null>(null)
+  const [] = useState("")
+  const [appliedCoupon] = useState<string | null>(null)
   const [shareLink, setShareLink] = useState("")
   const [copied, setCopied] = useState(false)
 
@@ -33,18 +32,9 @@ export default function CartPage() {
   const deliveryFee = subtotal > 500 ? 0 : 40
   const discount = appliedCoupon === "FRESH20" ? subtotal * 0.2 : 0
   const total = subtotal + deliveryFee - discount
-  const savings = discount + (subtotal > 500 ? 40 : 0)
 
   const frequentlyBought = products.filter((p) => p.inStock && !cart.some((item) => item.id === p.id)).slice(0, 4)
 
-  const handleApplyCoupon = () => {
-    if (couponCode.toUpperCase() === "FRESH20") {
-      setAppliedCoupon("FRESH20")
-      notification.success("Coupon applied successfully! You got 20% off", "Coupon Applied")
-    } else {
-      notification.error("Invalid coupon code. Please try again.", "Invalid Coupon")
-    }
-  }
 
   const handleShareCart = () => {
     const cartData = cart.map((item) => `${item.id}:${item.quantity}`).join(",")

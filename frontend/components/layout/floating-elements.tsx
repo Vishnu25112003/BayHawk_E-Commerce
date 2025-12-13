@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { MessageCircle, Phone, X, Send } from "lucide-react"
+import { MessageCircle, X, Send } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { cn } from "@/lib/utils"

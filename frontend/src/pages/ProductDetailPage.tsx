@@ -25,7 +25,6 @@ import { products, categories } from "@/lib/data"
 import { useStore } from "@/lib/store"
 import { cn } from "@/lib/utils"
 
-const weights = ["250g", "500g", "1kg"]
 
 export default function ProductDetailPage() {
   const params = useParams()
@@ -34,7 +33,7 @@ export default function ProductDetailPage() {
 
   const product = products.find((p: { id: string }) => p.id === params.id)
   const [selectedImage, setSelectedImage] = useState(0)
-  const [selectedWeight, setSelectedWeight] = useState(product?.weight || "500g")
+  const [selectedWeight] = useState(product?.weight || "500g")
   const [selectedVariant, setSelectedVariant] = useState(product?.variants?.[0]?.id || "")
   const [quantity, setQuantity] = useState(1)
 

@@ -23,8 +23,8 @@ export function LoadingScreen() {
         {/* Floating Logo */}
         <div className="relative z-10 animate-float">
           <img 
-            src="/public/bayhawk-logo.svg" 
-            alt="Loading" 
+            src="/bayhawk-logo.svg" 
+            alt="BayHawk Loading" 
             className="w-32 h-32 object-contain drop-shadow-2xl"
           />
         </div>

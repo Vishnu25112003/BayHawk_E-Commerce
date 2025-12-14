@@ -251,12 +251,21 @@ export function Navbar() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [showSuggestions, setShowSuggestions] = useState(false);
   const [isOnboardingActive, setIsOnboardingActive] = useState(false);
   const { cart, wishlist, user, setUser, walletBalance } = useStore();
 
   const [selectedLocation, setSelectedLocation] = useState("Central Chennai, 600001");
 
   const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+  // Filter products based on search query
+  const searchSuggestions = searchQuery.trim().length > 0
+    ? products.filter(product =>
+        product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        product.category.toLowerCase().includes(searchQuery.toLowerCase())
+      ).slice(0, 5)
+    : [];
 
   useEffect(() => {
     const handleOnboardingChange = (event: CustomEvent) => {
@@ -357,7 +366,7 @@ export function Navbar() {
             </div>
 
             {/* Search Bar */}
-            <form onSubmit={handleSearchSubmit} className="flex-1 max-w-xl">
+            <form onSubmit={handleSearchSubmit} className="flex-1 max-w-xl relative">
               <div className="relative w-full">
                 <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                 <Input
@@ -365,9 +374,81 @@ export function Navbar() {
                   placeholder="Search for fish, prawns, crabs..."
                   className="w-full pl-10 pr-4 bg-secondary border-0"
                   value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onChange={(e) => {
+                    setSearchQuery(e.target.value)
+                    setShowSuggestions(true)
+                  }}
+                  onFocus={() => setShowSuggestions(true)}
+                  onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
                 />
               </div>
+
+              {/* Search Suggestions Dropdown */}
+              {showSuggestions && searchSuggestions.length > 0 && (
+                <div className="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-gray-900 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 z-50 max-h-96 overflow-y-auto">
+                  <div className="p-2">
+                    <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 px-3 py-2">
+                      Search Results
+                    </p>
+                    {searchSuggestions.map((product) => (
+                      <Link
+                        key={product.id}
+                        to={`/products/${product.id}`}
+                        className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                        onClick={() => {
+                          setSearchQuery("")
+                          setShowSuggestions(false)
+                        }}
+                      >
+                        {/* Product Image */}
+                        <div className="w-12 h-12 rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-800 shrink-0">
+                          <img
+                            src={product.image || "/placeholder.svg"}
+                            alt={product.name}
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+
+                        {/* Product Info */}
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-medium text-gray-900 dark:text-gray-100 line-clamp-1">
+                            {product.name}
+                          </p>
+                          <p className="text-xs text-gray-500 dark:text-gray-400">
+                            {product.category}
+                          </p>
+                        </div>
+
+                        {/* Price */}
+                        <div className="text-right shrink-0">
+                          <p className="text-sm font-semibold text-primary">
+                            ₹{product.price}
+                          </p>
+                          {product.originalPrice && (
+                            <p className="text-xs text-gray-400 line-through">
+                              ₹{product.originalPrice}
+                            </p>
+                          )}
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+
+                  {/* View All Results */}
+                  <div className="border-t border-gray-200 dark:border-gray-700 p-2">
+                    <button
+                      type="submit"
+                      className="w-full text-center text-sm font-medium text-primary hover:bg-primary/5 py-2 rounded-lg transition-colors"
+                      onClick={() => {
+                        setShowSuggestions(false)
+                        handleSearchSubmit({ preventDefault: () => {} } as React.FormEvent)
+                      }}
+                    >
+                      View all results for "{searchQuery}"
+                    </button>
+                  </div>
+                </div>
+              )}
             </form>
 
             {/* Categories Dropdown */}

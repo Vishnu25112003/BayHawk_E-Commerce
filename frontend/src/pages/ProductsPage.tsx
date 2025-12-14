@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react"
 import { useSearchParams } from "react-router-dom"
-import { SlidersHorizontal, Grid3X3, List, ChevronDown } from "lucide-react"
+import { SlidersHorizontal, Grid3X3, List, ChevronDown, ShoppingBag, Fish, Drumstick, Tag, DollarSign, Star, Package } from "lucide-react"
 import { Navbar } from "@/components/layout/navbar"
 import { Footer } from "@/components/layout/footer"
 import { FloatingElements } from "@/components/layout/floating-elements"
@@ -142,10 +142,10 @@ export default function ProductsPage() {
       )}
 
       {/* Product Type Selector */}
-      <div className="bg-gradient-to-br from-white to-gray-50 rounded-xl p-4 border border-gray-200 shadow-sm">
-        <h3 className="font-bold text-base mb-4 flex items-center gap-2 text-gray-900">
-          <div className="w-8 h-8 rounded-lg bg-[#0A4D8C]/10 flex items-center justify-center">
-            <span className="text-lg">🛒</span>
+      <div className="bg-gradient-to-br from-white to-gray-50 rounded-xl p-3 sm:p-4 border border-gray-200 shadow-sm">
+        <h3 className="font-bold text-sm sm:text-base mb-3 sm:mb-4 flex items-center gap-2 text-gray-900">
+          <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-[#0A4D8C]/10 flex items-center justify-center">
+            <ShoppingBag className="h-4 w-4 sm:h-5 sm:w-5 text-[#0A4D8C]" />
           </div>
           Product Type
         </h3>
@@ -156,14 +156,19 @@ export default function ProductsPage() {
               setSelectedCategories([])
             }}
             className={cn(
-              "w-full flex items-center gap-3 p-3 rounded-lg transition-all border text-left",
+              "w-full flex items-center gap-2 sm:gap-3 p-2.5 sm:p-3 rounded-lg transition-all border text-left",
               productType === "seafood"
                 ? "bg-[#0A4D8C] text-white border-[#0A4D8C] shadow-md"
                 : "bg-white border-gray-200 hover:border-[#0A4D8C]/50 hover:bg-gray-50"
             )}
           >
-            <span className="text-xl">🐟</span>
-            <span className="text-sm font-medium flex-1">Seafood Products</span>
+            <div className={cn(
+              "w-8 h-8 sm:w-9 sm:h-9 rounded-lg flex items-center justify-center shrink-0",
+              productType === "seafood" ? "bg-white/20" : "bg-[#0A4D8C]/10"
+            )}>
+              <Fish className={cn("h-4 w-4 sm:h-5 sm:w-5", productType === "seafood" ? "text-white" : "text-[#0A4D8C]")} />
+            </div>
+            <span className="text-xs sm:text-sm font-medium flex-1">Seafood Products</span>
           </button>
           <button
             onClick={() => {
@@ -171,23 +176,28 @@ export default function ProductsPage() {
               setSelectedCategories([])
             }}
             className={cn(
-              "w-full flex items-center gap-3 p-3 rounded-lg transition-all border text-left",
+              "w-full flex items-center gap-2 sm:gap-3 p-2.5 sm:p-3 rounded-lg transition-all border text-left",
               productType === "other"
                 ? "bg-[#0A4D8C] text-white border-[#0A4D8C] shadow-md"
                 : "bg-white border-gray-200 hover:border-[#0A4D8C]/50 hover:bg-gray-50"
             )}
           >
-            <span className="text-xl">🍗</span>
-            <span className="text-sm font-medium flex-1">Other Products</span>
+            <div className={cn(
+              "w-8 h-8 sm:w-9 sm:h-9 rounded-lg flex items-center justify-center shrink-0",
+              productType === "other" ? "bg-white/20" : "bg-[#0A4D8C]/10"
+            )}>
+              <Drumstick className={cn("h-4 w-4 sm:h-5 sm:w-5", productType === "other" ? "text-white" : "text-[#0A4D8C]")} />
+            </div>
+            <span className="text-xs sm:text-sm font-medium flex-1">Other Products</span>
           </button>
         </div>
       </div>
 
       {/* Categories */}
-      <div className="bg-gradient-to-br from-white to-gray-50 rounded-xl p-4 border border-gray-200 shadow-sm">
-        <h3 className="font-bold text-base mb-4 flex items-center gap-2 text-gray-900">
-          <div className="w-8 h-8 rounded-lg bg-[#0A4D8C]/10 flex items-center justify-center">
-            <span className="text-lg">🏷️</span>
+      <div className="bg-gradient-to-br from-white to-gray-50 rounded-xl p-3 sm:p-4 border border-gray-200 shadow-sm">
+        <h3 className="font-bold text-sm sm:text-base mb-3 sm:mb-4 flex items-center gap-2 text-gray-900">
+          <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-[#0A4D8C]/10 flex items-center justify-center">
+            <Tag className="h-4 w-4 sm:h-5 sm:w-5 text-[#0A4D8C]" />
           </div>
           Categories
         </h3>
@@ -218,9 +228,11 @@ export default function ProductsPage() {
       </div>
 
       {/* Price Range */}
-      <div className="bg-gray-50 rounded-lg p-4">
-        <h3 className="font-semibold text-base mb-4 flex items-center gap-2">
-          <span className="w-1 h-5 bg-[#0A4D8C] rounded"></span>
+      <div className="bg-gradient-to-br from-white to-gray-50 rounded-xl p-3 sm:p-4 border border-gray-200 shadow-sm">
+        <h3 className="font-bold text-sm sm:text-base mb-3 sm:mb-4 flex items-center gap-2 text-gray-900">
+          <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-[#0A4D8C]/10 flex items-center justify-center">
+            <DollarSign className="h-4 w-4 sm:h-5 sm:w-5 text-[#0A4D8C]" />
+          </div>
           Price Range
         </h3>
         <Slider 
@@ -245,9 +257,11 @@ export default function ProductsPage() {
       </div>
 
       {/* Rating */}
-      <div className="bg-gray-50 rounded-lg p-4">
-        <h3 className="font-semibold text-base mb-4 flex items-center gap-2">
-          <span className="w-1 h-5 bg-[#0A4D8C] rounded"></span>
+      <div className="bg-gradient-to-br from-white to-gray-50 rounded-xl p-3 sm:p-4 border border-gray-200 shadow-sm">
+        <h3 className="font-bold text-sm sm:text-base mb-3 sm:mb-4 flex items-center gap-2 text-gray-900">
+          <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-[#0A4D8C]/10 flex items-center justify-center">
+            <Star className="h-4 w-4 sm:h-5 sm:w-5 text-[#0A4D8C]" />
+          </div>
           Minimum Rating
         </h3>
         <div className="space-y-3">
@@ -269,15 +283,18 @@ export default function ProductsPage() {
       </div>
 
       {/* Stock */}
-      <div className="bg-gray-50 rounded-lg p-4">
+      <div className="bg-gradient-to-br from-white to-gray-50 rounded-xl p-3 sm:p-4 border border-gray-200 shadow-sm">
         <div className="flex items-center gap-3 p-2">
+          <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-[#0A4D8C]/10 flex items-center justify-center shrink-0">
+            <Package className="h-4 w-4 sm:h-5 sm:w-5 text-[#0A4D8C]" />
+          </div>
           <Checkbox
             id="in-stock"
             checked={inStockOnly}
             onCheckedChange={(checked) => setInStockOnly(checked as boolean)}
             className="data-[state=checked]:bg-[#0A4D8C] data-[state=checked]:border-[#0A4D8C]"
           />
-          <Label htmlFor="in-stock" className="text-sm cursor-pointer font-medium">
+          <Label htmlFor="in-stock" className="text-xs sm:text-sm cursor-pointer font-medium flex-1">
             Show In Stock Only
           </Label>
         </div>
@@ -353,14 +370,14 @@ export default function ProductsPage() {
                       )}
                     </Button>
                   </SheetTrigger>
-                  <SheetContent side="left" className="w-[85vw] sm:w-[400px] overflow-y-auto top-[72px] h-[calc(100vh-72px)] mt-0">
-                    <SheetHeader className="border-b pb-4">
+                  <SheetContent side="left" className="w-[85vw] sm:w-[400px] p-0 flex flex-col top-[72px] h-[calc(100vh-72px)]">
+                    <SheetHeader className="border-b pb-4 px-6 pt-6 shrink-0">
                       <SheetTitle className="text-xl font-bold">Filters</SheetTitle>
                       <p className="text-sm text-muted-foreground">
                         {filteredProducts.length} products found
                       </p>
                     </SheetHeader>
-                    <div className="mt-6 pb-6">
+                    <div className="flex-1 overflow-y-auto px-6 py-6">
                       <FilterContent />
                     </div>
                   </SheetContent>

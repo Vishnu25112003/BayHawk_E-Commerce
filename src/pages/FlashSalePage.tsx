@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { Copy, Clock, Zap, Check, Crown, AlertCircle, ShoppingCart, Star, Minus, Plus, Weight, Users, Package } from 'lucide-react'
+import { Copy, Clock, Zap, Check, Crown, AlertCircle, ShoppingCart, Star, Minus, Plus, Weight, Package } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Progress } from '@/components/ui/progress'
 import { useToast } from '@/hooks/use-toast'
@@ -360,7 +360,6 @@ function ProductFlashCard({ product, isMemberLock = false }: { product: any, isM
     const [isExpired, setIsExpired] = useState(false)
     const { addToCart, cart, updateQuantity, removeFromCart } = useStore()
     const { toast } = useToast()
-    const [isHovered, setIsHovered] = useState(false)
 
     // Calculate Quantity from Cart
     const cartItem = cart.find(item => item.id === product.id)
@@ -442,8 +441,6 @@ function ProductFlashCard({ product, isMemberLock = false }: { product: any, isM
                 "group relative bg-white rounded-lg overflow-hidden border border-gray-200 transition-all duration-300 hover:shadow-lg hover:border-[#0A4D8C] h-full flex flex-col",
                 (isExpired) && "opacity-60 grayscale"
             )}
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
         >
             {/* Image Area */}
             <div className="relative w-full aspect-square overflow-hidden bg-gray-50 flex-shrink-0">
@@ -520,7 +517,7 @@ function ProductFlashCard({ product, isMemberLock = false }: { product: any, isM
                          </span>
                          <span className="text-slate-400">{stockPercentage}% Sold</span>
                     </div>
-                    <Progress value={100 - stockPercentage} className="h-1.5 bg-slate-100" indicatorClassName={isLowStock ? "bg-red-500" : "bg-[#0A4D8C]"} />
+                    <Progress value={100 - stockPercentage} className={`h-1.5 bg-slate-100 ${isLowStock ? "[&>div]:bg-red-500" : "[&>div]:bg-[#0A4D8C]"}`} />
                 </div>
 
                 {/* Spacer */}

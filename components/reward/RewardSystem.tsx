@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import confetti from 'canvas-confetti';
-import { Wallet, Gift, Timer, Percent, Bell } from 'lucide-react';
+import { Gift, Timer, Bell } from 'lucide-react';
 import ScratchCard from './ScratchCard';
 import { useStore, Reward } from '@/lib/store';
 
@@ -171,57 +171,30 @@ const RewardSystem: React.FC = () => {
   };
 
   return (
-    <div className="bg-[#f8f9fa] py-8 px-4 md:px-8 font-sans selection:bg-blue-100">
+    <div className="bg-[#f8f9fa] py-4 md:py-8 px-3 md:px-8 font-sans selection:bg-blue-100">
       <div className="max-w-5xl mx-auto">
-        <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10">
-          <div>
-            <h1 className="text-3xl font-black text-gray-900 tracking-tight">Reward Center</h1>
-            <div className="flex items-center gap-2 mt-1">
-              <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-              <p className="text-gray-500 text-sm font-medium">Claim your exclusive rewards</p>
+        {/* Reward Image with Balance */}
+        <div className="relative mb-6 md:mb-10 rounded-2xl md:rounded-3xl overflow-hidden shadow-lg md:shadow-xl">
+          <img 
+            src="/images/rewardpage.png" 
+            alt="Rewards" 
+            className="w-full h-auto object-cover"
+          />
+          <div className="absolute bottom-2 left-2 md:bottom-6 md:left-6">
+            <div className="bg-white/90 backdrop-blur-md px-2.5 py-1 md:px-6 md:py-3 rounded-lg md:rounded-2xl shadow-lg border border-white/50">
+              <p className="text-[9px] md:text-sm text-gray-600 font-semibold">Wallet Balance</p>
+              <p className="text-base md:text-3xl font-black text-gray-900">₹{walletBalance}</p>
             </div>
-          </div>
-          
-          <div className="flex gap-4 w-full md:w-auto">
-            <div className="flex-1 md:flex-none bg-white p-4 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 flex items-center gap-4">
-              <div className="bg-amber-50 p-3 rounded-2xl text-amber-600">
-                <Wallet size={24} />
-              </div>
-              <div>
-                <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Balance</p>
-                <p className="text-xl font-black text-gray-800">₹{walletBalance}</p>
-              </div>
-            </div>
-          </div>
-        </header>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-10">
-          <div className="bg-gradient-to-br from-indigo-600 to-blue-700 p-6 rounded-[30px] text-white shadow-xl relative overflow-hidden">
-            <div className="relative z-10">
-                <Percent size={32} className="mb-4 opacity-40" />
-                <h3 className="font-bold mb-2">Wallet Usage Rules</h3>
-                <ul className="text-xs space-y-2 opacity-90">
-                    <li>• Max ₹100 applied per order.</li>
-                    <li>• 10% of cart value limit.</li>
-                    <li>• 14 days credit validity.</li>
-                </ul>
-            </div>
-          </div>
-          <div className="bg-white p-6 rounded-[30px] border border-gray-100 shadow-sm">
-             <h3 className="font-bold mb-2 text-gray-800 flex items-center gap-2">
-                <Timer size={20} className="text-blue-500" /> Card Validity
-             </h3>
-             <p className="text-sm text-gray-500">Unscratched cards are valid for 7 days. Be sure to scratch them before they expire!</p>
           </div>
         </div>
 
         <main>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
             <AnimatePresence mode="popLayout">
               {collectedRewards.length === 0 ? (
-                <div className="col-span-full py-20 flex flex-col items-center text-gray-300">
-                  <Gift size={64} strokeWidth={1} className="mb-4" />
-                  <p className="font-bold">No rewards yet. Start shopping!</p>
+                <div className="col-span-full py-12 md:py-20 flex flex-col items-center text-gray-300">
+                  <Gift size={48} strokeWidth={1} className="mb-3 md:mb-4 md:w-16 md:h-16" />
+                  <p className="font-bold text-sm md:text-base">No rewards yet. Start shopping!</p>
                 </div>
               ) : (
                 collectedRewards.map((reward) => (
@@ -230,7 +203,7 @@ const RewardSystem: React.FC = () => {
                     layout
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    className="flex flex-col items-center"
+                    className="flex flex-col"
                   >
                     <ScratchCard
                       coverImage={reward.type === 'Coupon' ? IMAGES.OFFER_BEFORE : IMAGES.PRICE_BEFORE}
@@ -238,19 +211,19 @@ const RewardSystem: React.FC = () => {
                       onComplete={() => handleScratchComplete(reward)}
                       className={reward.isScratched ? 'opacity-40 pointer-events-none' : ''}
                     >
-                        <div className="flex flex-col items-center justify-center text-center p-4">
-                            <span className="text-2xl font-black text-[#0A4D8C] drop-shadow-sm font-mono">
+                        <div className="flex flex-col items-center justify-center text-center p-3 md:p-4">
+                            <span className="text-xl md:text-2xl font-black text-[#0A4D8C] drop-shadow-sm font-mono">
                                 {reward.value}
                             </span>
                         </div>
                     </ScratchCard>
                     
-                    <div className="mt-4 w-full bg-white p-4 rounded-3xl shadow-sm border border-gray-100">
-                        <p className="text-xs font-black text-gray-800 uppercase tracking-tighter">{reward.title}</p>
-                        <p className="text-[10px] text-gray-400 mt-1">{reward.description}</p>
-                        <div className="flex items-center gap-1 mt-2 text-[9px] text-gray-400 font-bold">
-                            <Timer size={10} />
-                            <span>Expires: {new Date(reward.expiryDate).toLocaleDateString()}</span>
+                    <div className="w-full bg-white p-2 md:p-3 rounded-b-xl shadow-sm border border-t-0 border-gray-200">
+                        <p className="text-[10px] md:text-xs font-bold text-gray-800 uppercase tracking-tight truncate">{reward.title}</p>
+                        <p className="text-[8px] md:text-[9px] text-gray-500 mt-0.5 truncate">{reward.description}</p>
+                        <div className="flex items-center gap-1 mt-1 text-[7px] md:text-[8px] text-gray-400 font-semibold">
+                            <Timer size={8} className="md:w-[9px] md:h-[9px]" />
+                            <span>Exp: {new Date(reward.expiryDate).toLocaleDateString('en-GB', { day: '2-digit', month: 'short' })}</span>
                         </div>
                     </div>
                   </motion.div>
@@ -266,10 +239,10 @@ const RewardSystem: React.FC = () => {
               initial={{ opacity: 0, y: 50, x: '-50%' }}
               animate={{ opacity: 1, y: 0, x: '-50%' }}
               exit={{ opacity: 0, y: 50, x: '-50%' }}
-              className="fixed bottom-10 left-1/2 bg-gray-900 text-white px-6 py-3 rounded-2xl shadow-2xl flex items-center gap-3 z-[100] border border-white/10"
+              className="fixed bottom-6 md:bottom-10 left-1/2 bg-gray-900 text-white px-4 py-2 md:px-6 md:py-3 rounded-xl md:rounded-2xl shadow-2xl flex items-center gap-2 md:gap-3 z-[100] border border-white/10 max-w-[90vw]"
             >
-              <Bell size={18} className="text-yellow-400 animate-bounce" />
-              <span className="text-xs font-bold tracking-wide">{notification}</span>
+              <Bell size={16} className="md:w-[18px] md:h-[18px] text-yellow-400 animate-bounce" />
+              <span className="text-[10px] md:text-xs font-bold tracking-wide">{notification}</span>
             </motion.div>
           )}
         </AnimatePresence>

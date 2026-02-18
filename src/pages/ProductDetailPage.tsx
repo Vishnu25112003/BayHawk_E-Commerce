@@ -226,7 +226,7 @@ export default function ProductDetailPage() {
       <CarouselContent>
         {images.map((img, index) => (
           <CarouselItem key={index}>
-            <div className="relative w-full h-[350px] md:h-[450px] rounded-lg overflow-hidden bg-secondary border border-gray-200">
+            <div className="relative w-full h-[50vh] md:h-[70vh] rounded-lg overflow-hidden bg-secondary border border-gray-200">
               <img
                 src={img || "/placeholder.svg"}
                 alt={`${product.name} ${index + 1}`}
@@ -268,7 +268,7 @@ export default function ProductDetailPage() {
           </div>
 
           {/* Right Side - Product Details */}
-          <div className="flex flex-col space-y-3">
+          <div className="flex flex-col space-y-3 h-[50vh] md:h-[70vh] overflow-y-auto pr-2">
             {/* Product Name & Rating */}
             <div className="space-y-2">
               <h1 className="text-xl md:text-2xl font-bold text-gray-900 leading-tight">{product.name}</h1>

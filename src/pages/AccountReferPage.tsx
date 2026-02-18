@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
-import { Users, Copy, Share2, ChevronRight, Gift, Check } from "lucide-react"
+import { Users, Copy, Share2, ChevronRight, Check } from "lucide-react"
 import { Navbar } from "@/components/layout/navbar"
 import { Footer } from "@/components/layout/footer"
 import { Button } from "@/components/ui/button"
@@ -42,38 +42,40 @@ export default function AccountReferPage() {
         </div>
 
         <div className="max-w-2xl mx-auto">
-          {/* Hero Card */}
-          <Card className="bg-gradient-to-r from-primary to-primary/80 text-primary-foreground mb-6">
-            <CardContent className="pt-6 text-center">
-              <Gift className="h-16 w-16 mx-auto mb-4" />
-              <h1 className="text-2xl font-bold mb-2">Refer Friends & Earn ₹100</h1>
-              <p className="text-primary-foreground/80 mb-6">
-                Share your referral code with friends. When they order, you both get ₹100!
-              </p>
+          {/* Hero Section with Image */}
+          <Card className="mb-6 overflow-hidden">
+            <CardContent className="p-0">
+              <div className="relative">
+                <img 
+                  src="/images/referpage.png" 
+                  alt="Refer Friends" 
+                  className="w-full h-auto object-cover"
+                />
 
-              {/* Referral Code */}
-              <div className="bg-primary-foreground/10 rounded-lg p-4 mb-4">
-                <p className="text-sm text-primary-foreground/80 mb-2">Your Referral Code</p>
-                <div className="flex items-center justify-center gap-2">
-                  <span className="text-2xl font-bold font-mono">{referralCode}</span>
+                {/* Referral Code Section - Overlaid on bottom 20% of image */}
+                <div className="absolute bottom-0 left-0 right-0 px-3 pb-3 md:px-6 md:pb-6 text-center flex flex-col items-center gap-2 md:gap-3">
+                  <div className="bg-white/80 backdrop-blur-md rounded-lg px-2.5 py-1.5 md:px-4 md:py-2.5 border-2 border-dashed border-gray-400 inline-flex items-center gap-1.5 md:gap-2">
+                    <span className="text-sm md:text-lg font-bold font-mono text-gray-900">{referralCode}</span>
+                    <Button
+                      size="icon"
+                      variant="ghost"
+                      className="h-6 w-6 md:h-7 md:w-7"
+                      onClick={handleCopy}
+                    >
+                      {copied ? <Check className="h-3 w-3 md:h-3.5 md:w-3.5" /> : <Copy className="h-3 w-3 md:h-3.5 md:w-3.5" />}
+                    </Button>
+                  </div>
+
                   <Button
-                    size="icon"
-                    variant="ghost"
-                    className="h-8 w-8 text-primary-foreground hover:bg-primary-foreground/20"
-                    onClick={handleCopy}
+                    size="sm"
+                    className="px-4 py-1.5 h-8 md:px-6 md:py-2 md:h-9 rounded-full shadow-lg text-xs md:text-sm"
+                    onClick={handleShare}
                   >
-                    {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+                    <Share2 className="h-3 w-3 md:h-3.5 md:w-3.5 mr-1.5 md:mr-2" />
+                    Share with Friends
                   </Button>
                 </div>
               </div>
-
-              <Button
-                className="bg-primary-foreground text-primary hover:bg-primary-foreground/90"
-                onClick={handleShare}
-              >
-                <Share2 className="h-4 w-4 mr-2" />
-                Share with Friends
-              </Button>
             </CardContent>
           </Card>
 

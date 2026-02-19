@@ -45,7 +45,7 @@ const FLASH_PRODUCTS = [
     id: 'p1',
     name: 'Fresh Tiger Prawns',
     nameTamil: 'Eral',
-    image: '/prawns.jpg',
+    image: '/tiger-prawns.png',
     originalPrice: 650,
     salePrice: 450,
     endTime: new Date(Date.now() + 1000 * 60 * 60 * 2).getTime(), // 2 hours from now
@@ -62,7 +62,7 @@ const FLASH_PRODUCTS = [
     id: 'p2',
     name: 'Premium Pomfret (Large)',
     nameTamil: 'Vavval',
-    image: '/pomfret-fish.jpg',
+    image: '/fresh-pomfret-fish.jpg',
     originalPrice: 1200,
     salePrice: 899,
     endTime: new Date(Date.now() + 1000 * 60 * 45).getTime(), // 45 mins from now
@@ -77,8 +77,8 @@ const FLASH_PRODUCTS = [
   },
   {
     id: 'p3',
-    name: 'Atlantic Salmon Steaks',
-    nameTamil: 'Salmon',
+    name: 'King Fish Steaks',
+    nameTamil: 'Surmai',
     image: '/king-fish-steaks.jpg',
     originalPrice: 1500,
     salePrice: 1100,
@@ -109,6 +109,40 @@ const FLASH_PRODUCTS = [
     rating: 4.6,
     reviews: 42
   },
+  {
+    id: 'p5',
+    name: 'Fresh Prawns',
+    nameTamil: 'Eral',
+    image: '/prawns.jpg',
+    originalPrice: 550,
+    salePrice: 399,
+    endTime: new Date(Date.now() + 1000 * 60 * 60 * 3).getTime(), // 3 hours
+    totalStock: 40,
+    soldStock: 25,
+    isMemberOnly: false,
+    weight: '500g',
+    pieces: '15-20',
+    serves: '2-3',
+    rating: 4.5,
+    reviews: 78
+  },
+  {
+    id: 'p6',
+    name: 'Rohu Fish',
+    nameTamil: 'Rohu',
+    image: '/rohu-fish.jpg',
+    originalPrice: 400,
+    salePrice: 299,
+    endTime: new Date(Date.now() + 1000 * 60 * 60 * 6).getTime(), // 6 hours
+    totalStock: 35,
+    soldStock: 20,
+    isMemberOnly: false,
+    weight: '1kg',
+    pieces: '1',
+    serves: '4-5',
+    rating: 4.4,
+    reviews: 92
+  },
 ]
 
 const MEMBERSHIP_BENEFITS = [
@@ -123,6 +157,28 @@ const MEMBERSHIP_BENEFITS = [
 export default function FlashSalePage() {
   const { toast } = useToast()
   const [showUrgencyPopup, setShowUrgencyPopup] = useState(false)
+  const [mainTimer, setMainTimer] = useState<string>('')
+
+  // Main countdown for earliest ending product
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const earliestProduct = FLASH_PRODUCTS.reduce((prev, curr) => 
+        prev.endTime < curr.endTime ? prev : curr
+      )
+      const now = new Date().getTime()
+      const distance = earliestProduct.endTime - now
+
+      if (distance < 0) {
+        setMainTimer('Sale Ended')
+      } else {
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000)
+        setMainTimer(`${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`)
+      }
+    }, 1000)
+    return () => clearInterval(interval)
+  }, [])
 
   // Check for urgency popup logic (simulated)
   useEffect(() => {
@@ -167,7 +223,26 @@ export default function FlashSalePage() {
                 <h1 className="text-3xl md:text-5xl font-bold text-slate-900 tracking-tight">
                     Flash Sale <span className="text-[#0A4D8C]">Extravaganza</span>
                 </h1>
-                <p className="text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
+                
+                {/* Main Countdown Timer */}
+                <div className="max-w-md mx-auto mt-6">
+                    <div className="bg-gradient-to-r from-red-600 to-orange-600 text-white rounded-2xl p-6 shadow-2xl">
+                        <div className="flex items-center justify-center gap-2 mb-3">
+                            <Clock className="h-5 w-5 animate-pulse" />
+                            <span className="text-sm font-semibold uppercase tracking-wider">Next Deal Ends In</span>
+                        </div>
+                        <div className="text-5xl font-bold tabular-nums tracking-wider text-center">
+                            {mainTimer}
+                        </div>
+                        <div className="flex justify-center gap-8 mt-3 text-xs font-medium opacity-90">
+                            <span>HOURS</span>
+                            <span>MINS</span>
+                            <span>SECS</span>
+                        </div>
+                    </div>
+                </div>
+
+                <p className="text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed mt-6">
                     Grab these limited-time offers before they are gone! 
                     <span className="block text-sm mt-3 text-slate-500 italic bg-white/50 inline-block px-4 py-1 rounded-full border border-slate-200">
                         *Multiple coupons cannot be clubbed. Flash sale items not eligible for other coupons.
@@ -447,8 +522,11 @@ function ProductFlashCard({ product, isMemberLock = false }: { product: any, isM
                 <img 
                     src={product.image} 
                     alt={product.name} 
-                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                    onError={(e) => (e.currentTarget.src = '/placeholder.jpg')}
+                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    onError={(e) => {
+                        const target = e.currentTarget;
+                        target.src = '/placeholder.svg';
+                    }}
                 />
                 
                 {/* Discount Badge */}
@@ -471,10 +549,15 @@ function ProductFlashCard({ product, isMemberLock = false }: { product: any, isM
             
             {/* Content Area */}
             <div className="p-2.5 sm:p-3 flex flex-col flex-1">
-                {/* Flash Sale Timer */}
-                <div className="mb-2 bg-red-50 border border-red-100 rounded-md p-1.5 flex items-center justify-center gap-1.5 text-xs font-bold text-red-700">
-                    <Clock className="h-3 w-3" />
-                    <span>{timeLeft}</span>
+                {/* Flash Sale Timer - Enhanced */}
+                <div className="mb-2 bg-gradient-to-r from-red-50 to-orange-50 border-2 border-red-200 rounded-lg p-2 flex flex-col items-center gap-1">
+                    <div className="flex items-center gap-1 text-[10px] text-red-600 font-semibold">
+                        <Clock className="h-3 w-3 animate-pulse" />
+                        <span>ENDS IN</span>
+                    </div>
+                    <div className="text-sm sm:text-base font-bold text-red-700 tabular-nums tracking-wide">
+                        {timeLeft}
+                    </div>
                 </div>
 
                 {/* Title & Rating */}
@@ -509,15 +592,24 @@ function ProductFlashCard({ product, isMemberLock = false }: { product: any, isM
                     )}
                 </div>
 
-                {/* Stock Progress */}
-                <div className="space-y-1 mb-4">
-                    <div className="flex justify-between text-[10px] font-medium">
-                         <span className={`${isLowStock ? 'text-red-600 font-bold' : 'text-slate-600'}`}>
-                            {isLowStock ? 'Only few left!' : `${product.totalStock - product.soldStock} items left`}
+                {/* Stock Progress - Enhanced */}
+                <div className="space-y-1.5 mb-3">
+                    <div className="flex justify-between items-center text-[10px] font-medium">
+                         <span className={`${isLowStock ? 'text-red-600 font-bold flex items-center gap-1' : 'text-slate-600'}`}>
+                            {isLowStock && <AlertCircle className="h-3 w-3" />}
+                            {isLowStock ? 'Hurry! Only few left' : `${product.totalStock - product.soldStock} left in stock`}
                          </span>
-                         <span className="text-slate-400">{stockPercentage}% Sold</span>
+                         <span className="text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded">{product.soldStock} sold</span>
                     </div>
-                    <Progress value={100 - stockPercentage} className={`h-1.5 bg-slate-100 ${isLowStock ? "[&>div]:bg-red-500" : "[&>div]:bg-[#0A4D8C]"}`} />
+                    <div className="relative">
+                        <Progress 
+                            value={100 - stockPercentage} 
+                            className={`h-2 bg-slate-200 ${isLowStock ? "[&>div]:bg-gradient-to-r [&>div]:from-red-500 [&>div]:to-red-600" : "[&>div]:bg-gradient-to-r [&>div]:from-[#0A4D8C] [&>div]:to-blue-600"}`} 
+                        />
+                        <div className="absolute inset-0 flex items-center justify-center">
+                            <span className="text-[8px] font-bold text-white drop-shadow-md">{stockPercentage}% SOLD</span>
+                        </div>
+                    </div>
                 </div>
 
                 {/* Spacer */}

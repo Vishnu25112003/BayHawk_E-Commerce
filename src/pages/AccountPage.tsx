@@ -41,7 +41,6 @@ const menuItems = [
   { icon: RefreshCw, label: "Frequent Orders", href: "/account/frequent-orders" },
   { icon: Heart, label: "Favorites", href: "/account/favorites" },
   { icon: MapPin, label: "Addresses", href: "/account/addresses" },
-  { icon: Wallet, label: "Wallet", href: "/account/wallet" },
   { icon: Users, label: "Refer & Earn", href: "/account/refer" },
   { icon: Crown, label: "Membership", href: "/account/membership" },
   { icon: Settings, label: "Settings", href: "/account/settings" },

@@ -1,7 +1,7 @@
 import type React from "react"
 import { useState, useEffect } from "react"
 import { Link } from "react-router-dom"
-import { Heart, Share2, ShoppingCart, Star, Minus, Plus, Weight, Users, Package } from "lucide-react"
+import { Heart, ShoppingCart, Star, Minus, Plus, Weight, Users, Package } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
   Carousel,
@@ -99,18 +99,6 @@ export function ProductCard({ product, className, viewMode = "grid" }: ProductCa
     }
   }
 
-  const handleShare = (e: React.MouseEvent) => {
-    e.preventDefault()
-    e.stopPropagation()
-    if (navigator.share) {
-      navigator.share({
-        title: product.name,
-        text: `Check out ${product.name} on FreshCatch`,
-        url: window.location.origin + `/products/${product.id}`,
-      })
-    }
-  }
-
   // List View Layout
   if (viewMode === "list") {
     return (
@@ -125,37 +113,50 @@ export function ProductCard({ product, className, viewMode = "grid" }: ProductCa
           onMouseLeave={() => setIsHovered(false)}
         >
           <div className="flex gap-3 md:gap-4 p-3 md:p-4">
-            <Carousel setApi={setApi} className="w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 flex-shrink-0">
-              <CarouselContent>
-                {images.map((img, index) => (
-                  <CarouselItem key={index}>
-                    <div className="relative w-full h-full overflow-hidden rounded-lg bg-gray-50">
-                      <img
-                        src={img || "/placeholder.svg"}
-                        alt={product.name}
-                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                      />
-                    </div>
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-              <div
+            <div className="relative">
+              <Carousel setApi={setApi} className="w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 flex-shrink-0">
+                <CarouselContent>
+                  {images.map((img, index) => (
+                    <CarouselItem key={index}>
+                      <div className="relative w-full h-full overflow-hidden rounded-lg bg-gray-50">
+                        <img
+                          src={img || "/placeholder.svg"}
+                          alt={product.name}
+                          className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                        />
+                      </div>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <div
+                  className={cn(
+                    "absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1 transition-opacity duration-300",
+                    isHovered || showIndicator ? "opacity-100" : "opacity-0"
+                  )}
+                >
+                  {images.map((_, index) => (
+                    <div
+                      key={index}
+                      className={cn(
+                        "w-1.5 h-1.5 rounded-full bg-white transition-all duration-300",
+                        current === index ? "w-3 bg-opacity-100" : "bg-opacity-50"
+                      )}
+                    />
+                  ))}
+                </div>
+              </Carousel>
+              <Button
+                size="icon"
+                variant="ghost"
                 className={cn(
-                  "absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1 transition-opacity duration-300",
-                  isHovered || showIndicator ? "opacity-100" : "opacity-0"
+                  "absolute top-2 left-2 h-7 w-7 rounded-full bg-white/90 hover:bg-white shadow-md z-10",
+                  inWishlist && "bg-red-500 text-white hover:bg-red-600"
                 )}
+                onClick={handleWishlist}
               >
-                {images.map((_, index) => (
-                  <div
-                    key={index}
-                    className={cn(
-                      "w-1.5 h-1.5 rounded-full bg-white transition-all duration-300",
-                      current === index ? "w-3 bg-opacity-100" : "bg-opacity-50"
-                    )}
-                  />
-                ))}
-              </div>
-            </Carousel>
+                <Heart className={cn("h-4 w-4", inWishlist && "fill-current")} />
+              </Button>
+            </div>
 
             {/* Content */}
             <div className="flex-1 flex flex-col justify-between min-w-0">
@@ -166,27 +167,6 @@ export function ProductCard({ product, className, viewMode = "grid" }: ProductCa
                     {product.nameTamil && (
                       <p className="text-xs md:text-sm text-sky-500 font-semibold mt-0.5">{product.nameTamil}</p>
                     )}
-                  </div>
-                  <div className="hidden sm:flex gap-1 flex-shrink-0">
-                    <Button
-                      size="icon"
-                      variant="ghost"
-                      className={cn(
-                        "h-7 w-7 md:h-8 md:w-8 rounded-full",
-                        inWishlist && "bg-red-500 text-white hover:bg-red-600",
-                      )}
-                      onClick={handleWishlist}
-                    >
-                      <Heart className={cn("h-3 w-3 md:h-4 md:w-4", inWishlist && "fill-current")} />
-                    </Button>
-                    <Button
-                      size="icon"
-                      variant="ghost"
-                      className="h-7 w-7 md:h-8 md:w-8 rounded-full"
-                      onClick={handleShare}
-                    >
-                      <Share2 className="h-3 w-3 md:h-4 md:w-4" />
-                    </Button>
                   </div>
                 </div>
 
@@ -299,7 +279,7 @@ export function ProductCard({ product, className, viewMode = "grid" }: ProductCa
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-        <Carousel setApi={setApi} className="w-full">
+        <Carousel setApi={setApi} className="w-full relative">
           <CarouselContent>
             {images.map((img, index) => (
               <CarouselItem key={index}>
@@ -329,6 +309,17 @@ export function ProductCard({ product, className, viewMode = "grid" }: ProductCa
               />
             ))}
           </div>
+          <Button
+            size="icon"
+            variant="ghost"
+            className={cn(
+              "absolute top-2 left-2 h-7 w-7 sm:h-8 sm:w-8 rounded-full bg-white/90 hover:bg-white shadow-md z-10",
+              inWishlist && "bg-red-500 text-white hover:bg-red-600"
+            )}
+            onClick={handleWishlist}
+          >
+            <Heart className={cn("h-3.5 w-3.5 sm:h-4 sm:w-4", inWishlist && "fill-current")} />
+          </Button>
         </Carousel>
 
         {/* Compact Content */}

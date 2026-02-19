@@ -500,7 +500,7 @@ export function Navbar() {
             </Button>
 
             {/* Wallet Icon - Mobile View */}
-            <Link to="/account/wallet" className="md:hidden">
+            <Link to="/account/rewards" className="md:hidden">
               <Button variant="ghost" size="icon">
                 <Wallet className="h-5 w-5" />
               </Button>
@@ -520,7 +520,7 @@ export function Navbar() {
                 </Button>
               </Link>
 
-              <Link to="/account/wallet" className="hidden sm:flex items-center gap-1">
+              <Link to="/account/rewards" className="hidden sm:flex items-center gap-1">
                 <Button variant="ghost" size="icon">
                   <Wallet className="h-5 w-5" />
                 </Button>
@@ -704,7 +704,7 @@ export function Navbar() {
                 </h3>
                 <div className="space-y-1">
                   <Link
-                    to="/account/wallet"
+                    to="/account/rewards"
                     onClick={() => setMobileMenuOpen(false)}
                     className="flex items-center gap-3 p-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-primary rounded-lg transition-colors"
                   >

@@ -18,7 +18,6 @@ import AccountOrdersPage from './pages/AccountOrdersPage'
 import AccountFavoritesPage from './pages/AccountFavoritesPage'
 import AccountAddressesPage from './pages/AccountAddressesPage'
 import AccountSettingsPage from './pages/AccountSettingsPage'
-import AccountWalletPage from './pages/AccountWalletPage'
 import AccountMembershipPage from './pages/AccountMembershipPage'
 import AccountReferPage from './pages/AccountReferPage'
 import AccountFrequentOrdersPage from './pages/AccountFrequentOrdersPage'
@@ -56,7 +55,6 @@ function App() {
         <Route path="/account/favorites" element={<AccountFavoritesPage />} />
         <Route path="/account/addresses" element={<AccountAddressesPage />} />
         <Route path="/account/settings" element={<AccountSettingsPage />} />
-        <Route path="/account/wallet" element={<AccountWalletPage />} />
         <Route path="/account/membership" element={<AccountMembershipPage />} />
         <Route path="/account/refer" element={<AccountReferPage />} />
         <Route path="/account/frequent-orders" element={<AccountFrequentOrdersPage />} />
